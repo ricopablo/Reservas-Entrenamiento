@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0f0f14">
+  <title>Mi Bono — Entrenamiento Personal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0f14;
+      --surface: #17171f;
+      --surface2: #1f1f2b;
+      --border: #27273a;
+      --accent: #c8f542;
+      --accent2: #42b8f5;
+      --danger: #f54265;
+      --warn: #f5c842;
+      --text: #eeecf8;
+      --muted: #5a5a7a;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --radius: 14px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* LOGIN SCREEN */
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-logo {
+      font-family: var(--font-head);
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 6px;
+      line-height: 1;
+    }
+
+    .login-logo span {
+      color: var(--accent);
+    }
+
+    .login-sub {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 48px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 380px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 24px;
+    }
+
+    .login-title {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .login-desc {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    /* FORM */
+    .form-row {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--accent);
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.15s;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+    }
+
+    .btn-secondary {
+      background: var(--accent2);
+      color: #000;
+      font-weight: 600;
+    }
+
+    .btn-ghost {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .btn-sm {
+      padding: 9px 14px;
+      font-size: 11px;
+    }
+
+    /* APP SCREEN */
+    .app-screen {
+      display: none;
+    }
+
+    .app-screen.active {
+      display: block;
+    }
+
+    /* HEADER */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 15, 20, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-name {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .logout-btn {
+      font-size: 11px;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* MAIN */
+    .main {
+      padding: 20px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* BONO CARD */
+    .bono-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bono-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200, 245, 66, 0.08), transparent 70%);
+    }
+
+    .bono-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .bono-ring-wrap {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    .ring-svg {
+      flex-shrink: 0;
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 8;
+    }
+
+    .ring-fill {
+      fill: none;
+      stroke-width: 8;
+      stroke-linecap: round;
+      transform-origin: center;
+      transform: rotate(-90deg);
+      transition: stroke-dashoffset 1s ease, stroke 0.3s;
+    }
+
+    .ring-text-num {
+      font-family: var(--font-head);
+      font-size: 28px;
+      font-weight: 800;
+      dominant-baseline: central;
+      text-anchor: middle;
+    }
+
+    .ring-text-sub {
+      font-size: 10px;
+      dominant-baseline: central;
+      text-anchor: middle;
+      fill: var(--muted);
+    }
+
+    .bono-meta {
+      flex: 1;
+    }
+
+    .bono-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .bono-meta-label {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .bono-meta-val {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .bono-progress {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .bono-progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.8s ease;
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* RESERVAR */
+    .reservar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .reservar-title {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .reservar-desc {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    /* HISTORIAL */
+    .hist-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hist-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .hist-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hist-fecha {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .hist-hora {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .hist-msg {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+      font-style: italic;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .estado-badge {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .estado-pendiente {
+      background: rgba(245, 200, 66, 0.15);
+      color: var(--warn);
+    }
+
+    .estado-confirmada {
+      background: rgba(66, 184, 245, 0.15);
+      color: var(--accent2);
+    }
+
+    .estado-rechazada {
+      background: rgba(245, 66, 101, 0.15);
+      color: var(--danger);
+    }
+
+    .estado-completada {
+      background: rgba(200, 245, 66, 0.1);
+      color: var(--accent);
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      z-index: 999;
+      transition: transform 0.3s ease;
+      white-space: nowrap;
+      max-width: 90vw;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.success {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .toast.error {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    /* LOADING */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 40px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .empty-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .alert {
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+
+    .alert-warn {
+      background: rgba(245, 200, 66, 0.08);
+      border: 1px solid rgba(245, 200, 66, 0.2);
+      color: var(--warn);
+    }
+
+    .alert-danger {
+      background: rgba(245, 66, 101, 0.08);
+      border: 1px solid rgba(245, 66, 101, 0.2);
+      color: var(--danger);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOGIN -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-logo">PT<span>.</span></div>
+    <div class="login-sub">Entrenamiento Personal</div>
+    <div class="login-card">
+      <div class="login-title">Accede a tu bono</div>
+      <div class="login-desc">Introduce el email con el que te registró tu entrenador.</div>
+      <div class="form-row">
+        <label class="form-label">Tu email</label>
+        <input class="form-input" type="email" id="login-email" placeholder="tu@email.com" autocomplete="email"
+          onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div id="login-error" style="color:var(--danger);font-size:12px;margin-bottom:12px;display:none">
+        Email no encontrado. Contacta con tu entrenador.
+      </div>
+      <button class="btn btn-primary btn-full" onclick="doLogin()">Entrar</button>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div class="app-screen" id="app-screen">
+    <div class="header">
+      <div class="header-name" id="app-nombre">—</div>
+      <button class="logout-btn" onclick="logout()">Salir</button>
+    </div>
+
+    <div class="main" id="app-main">
+      <div class="loading">
+        <div class="spinner"></div>Cargando...
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ============================================================
+    // CONFIGURACIÓN — reemplaza con tu URL de Google Apps Script
+    // ============================================================
+    const API_URL = 'Phttps://script.google.com/u/0/home/projects/1q3mF2Ppf1y_jTqSCMnCRSH1rS0nCJqGlN_u9iZbbVydYFcWatghVm0Xt/edit';
+    // ============================================================
+
+    let clienteData = null;
+    let reservasData = [];
+
+    // ---- API ----
+    async function api(action, data = {}) {
+      const body = JSON.stringify({ action, ...data });
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        body,
+        headers: { 'Content-Type': 'text/plain' }
+      });
+      return res.json();
+    }
+
+    // ---- LOGIN ----
+    async function doLogin() {
+      const email = document.getElementById('login-email').value.trim();
+      if (!email) return;
+      const btn = document.querySelector('#login-screen .btn-primary');
+      btn.textContent = 'Buscando...';
+      btn.disabled = true;
+      document.getElementById('login-error').style.display = 'none';
+
+      const result = await api('getClienteByEmail', { email });
+
+      btn.textContent = 'Entrar';
+      btn.disabled = false;
+
+      if (result.error) {
+        document.getElementById('login-error').style.display = 'block';
+        return;
+      }
+
+      // Guardar sesión local
+      localStorage.setItem('pt_email', email);
+      localStorage.setItem('pt_nombre', result.nombre);
+      localStorage.setItem('pt_id', result.id);
+
+      enterApp(result);
+    }
+
+    function logout() {
+      localStorage.removeItem('pt_email');
+      localStorage.removeItem('pt_nombre');
+      localStorage.removeItem('pt_id');
+      clienteData = null;
+      reservasData = [];
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('app-screen').classList.remove('active');
+      document.getElementById('login-email').value = '';
+    }
+
+    async function enterApp(cliente) {
+      clienteData = cliente;
+      document.getElementById('app-nombre').textContent = cliente.nombre.split(' ')[0];
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app-screen').classList.add('active');
+      await loadAppData();
+    }
+
+    async function loadAppData() {
+      const todasReservas = await api('getReservas');
+      reservasData = Array.isArray(todasReservas)
+        ? todasReservas.filter(r => r.cliente_id === clienteData.id)
+        : [];
+
+      // Recargar datos frescos del cliente
+      const c = await api('getClienteByEmail', { email: clienteData.email });
+      if (!c.error) clienteData = c;
+
+      renderApp();
+    }
+
+    // ---- RENDER APP ----
+    function renderApp() {
+      const total = Number(clienteData.sesiones_totales);
+      const usadas = Number(clienteData.sesiones_usadas);
+      const rest = total - usadas;
+      const pct = total > 0 ? (rest / total) : 0;
+
+      // Ring
+      const r = 44;
+      const circ = 2 * Math.PI * r;
+      const offset = circ * (1 - pct);
+      const ringColor = rest === 0 ? 'var(--danger)' : rest <= 2 ? 'var(--warn)' : 'var(--accent)';
+      const textColor = ringColor;
+
+      // Alert
+      let alertHTML = '';
+      if (rest === 0) alertHTML = `<div class="alert alert-danger">⚠️ Tu bono se ha agotado. Contacta con tu entrenador para renovarlo.</div>`;
+      else if (rest <= 2) alertHTML = `<div class="alert alert-warn">⚡ Te quedan pocas sesiones. ¡Habla con tu entrenador para renovar!</div>`;
+
+      // Historial
+      const histHTML = reservasData.length === 0
+        ? '<div class="empty-state"><div class="empty-icon">📆</div>Aún no tienes reservas</div>'
+        : reservasData
+          .sort((a, b) => new Date(b.fecha_creacion) - new Date(a.fecha_creacion))
+          .map(r => {
+            const colors = { pendiente: 'var(--warn)', confirmada: 'var(--accent2)', rechazada: 'var(--danger)', completada: 'var(--accent)' };
+            const fecha = r.fecha_propuesta
+              ? new Date(r.fecha_propuesta).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' })
+              : '—';
+            return `<div class="hist-item">
+            <div class="hist-dot" style="background:${colors[r.estado]}"></div>
+            <div class="hist-info">
+              <div class="hist-fecha">${fecha}${r.hora_propuesta ? ' · ' + r.hora_propuesta : ''}</div>
+              ${r.mensaje ? `<div class="hist-msg">"${r.mensaje}"</div>` : ''}
+            </div>
+            <span class="estado-badge estado-${r.estado}">${r.estado}</span>
+          </div>`;
+          }).join('');
+
+      // Formulario de reserva
+      const puedeProponer = rest > 0;
+      const reservaHTML = puedeProponer ? `
+    <div class="reservar-card">
+      <div class="reservar-title">Proponer sesión</div>
+      <div class="reservar-desc">Tu entrenador confirmará o rechazará la propuesta.</div>
+      <div class="form-row">
+        <label class="form-label">Fecha</label>
+        <input class="form-input" type="date" id="prop-fecha" min="${today()}">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Hora preferida</label>
+        <input class="form-input" type="time" id="prop-hora">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Mensaje (opcional)</label>
+        <input class="form-input" type="text" id="prop-msg" placeholder="Ej: Prefiero por la mañana">
+      </div>
+      <button class="btn btn-secondary btn-full" onclick="proponerReserva()">Enviar propuesta</button>
+    </div>
+  ` : '';
+
+      document.getElementById('app-main').innerHTML = `
+    ${alertHTML}
+
+    <div class="bono-card">
+      <div class="bono-label">Mi bono activo</div>
+      <div class="bono-ring-wrap">
+        <svg class="ring-svg" width="100" height="100" viewBox="0 0 100 100">
+          <circle class="ring-bg" cx="50" cy="50" r="${r}"/>
+          <circle class="ring-fill"
+            cx="50" cy="50" r="${r}"
+            stroke="${ringColor}"
+            stroke-dasharray="${circ}"
+            stroke-dashoffset="${offset}"/>
+          <text class="ring-text-num" x="50" y="46" fill="${textColor}">${rest}</text>
+          <text class="ring-text-sub" x="50" y="62" fill="var(--muted)">restantes</text>
+        </svg>
+        <div class="bono-meta">
+          <div class="bono-meta-row">
+            <span class="bono-meta-label">Total bono</span>
+            <span class="bono-meta-val">${total}</span>
+          </div>
+          <div class="bono-meta-row">
+            <span class="bono-meta-label">Usadas</span>
+            <span class="bono-meta-val">${usadas}</span>
+          </div>
+          <div class="bono-progress" style="margin-top:4px">
+            <div class="bono-progress-fill" style="width:${(usadas / total * 100).toFixed(1)}%;background:${rest <= 2 ? 'var(--danger)' : 'var(--accent)'}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Reservar sesión</div>
+    ${reservaHTML || '<div class="empty-state" style="margin-bottom:20px"><div class="empty-icon">🚫</div>Renueva tu bono para seguir reservando</div>'}
+
+    <div class="section-title">Historial</div>
+    ${histHTML}
+  `;
+    }
+
+    // ---- PROPONER RESERVA ----
+    async function proponerReserva() {
+      const fecha = document.getElementById('prop-fecha').value;
+      const hora = document.getElementById('prop-hora').value;
+      const msg = document.getElementById('prop-msg').value.trim();
+
+      if (!fecha || !hora) return toast('Selecciona fecha y hora', 'error');
+
+      const btn = document.querySelector('#app-main .btn-secondary');
+      btn.textContent = 'Enviando...'; btn.disabled = true;
+
+      await api('addReserva', {
+        cliente_id: clienteData.id,
+        cliente_nombre: clienteData.nombre,
+        fecha_propuesta: fecha,
+        hora_propuesta: hora,
+        mensaje: msg
+      });
+
+      toast('¡Propuesta enviada! Tu entrenador la confirmará pronto.', 'success');
+      await loadAppData();
+    }
+
+    // ---- UTILS ----
+    function today() {
+      return new Date().toISOString().split('T')[0];
+    }
+
+    let toastTimer;
+    function toast(msg, type = '') {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.className = 'toast show' + (type ? ' ' + type : '');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+    }
+
+    // ---- AUTO LOGIN ----
+    window.addEventListener('load', async () => {
+      if (API_URL === 'PEGA_AQUÍ_TU_URL_DE_APPS_SCRIPT') {
+        document.getElementById('login-screen').innerHTML = `
+      <div style="text-align:center;padding:40px 20px">
+        <div style="font-size:40px;margin-bottom:16px">⚙️</div>
+        <div style="font-family:var(--font-head);font-size:20px;font-weight:800;margin-bottom:10px">App no configurada</div>
+        <div style="color:var(--muted);font-size:13px;line-height:1.6">
+          Contacta con tu entrenador para obtener<br>el enlace correcto de la aplicación.
+        </div>
+      </div>`;
+        return;
+      }
+
+      const savedEmail = localStorage.getItem('pt_email');
+      if (savedEmail) {
+        const c = await api('getClienteByEmail', { email: savedEmail });
+        if (!c.error) {
+          enterApp(c);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

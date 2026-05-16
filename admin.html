@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>PT Admin — Panel de Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --surface2: #1e1e1e;
+      --border: #2a2a2a;
+      --accent: #c8f542;
+      --accent2: #42f5a8;
+      --danger: #f54242;
+      --warn: #f5a842;
+      --text: #f0f0f0;
+      --muted: #666;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --radius: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-logo {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+    }
+
+    .header-logo span {
+      color: var(--accent);
+    }
+
+    .header-badge {
+      background: var(--accent);
+      color: #000;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* NAV TABS */
+    .nav-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .nav-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      flex-shrink: 0;
+      padding: 14px 20px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-btn .badge-num {
+      display: inline-block;
+      background: var(--danger);
+      color: #fff;
+      border-radius: 20px;
+      font-size: 9px;
+      padding: 1px 5px;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+
+    /* MAIN */
+    .main {
+      padding: 20px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* PANEL */
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    /* STATS ROW */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 14px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* FORM */
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: var(--accent);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.15s;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background: #d4ff50;
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+    }
+
+    .btn-success {
+      background: var(--accent2);
+      color: #000;
+    }
+
+    .btn-warn {
+      background: var(--warn);
+      color: #000;
+    }
+
+    .btn-ghost {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    .btn-sm {
+      padding: 7px 12px;
+      font-size: 10px;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    /* CLIENT CARDS */
+    .client-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .client-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .client-card:hover {
+      border-color: #333;
+    }
+
+    .client-card-header {
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+    }
+
+    .client-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .client-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .client-name {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .client-email {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .client-sessions {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .sessions-count {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .sessions-count.low {
+      color: var(--danger);
+    }
+
+    .sessions-count.ok {
+      color: var(--accent);
+    }
+
+    .sessions-sub {
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    .progress-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--accent);
+      transition: width 0.4s ease;
+    }
+
+    .progress-fill.low {
+      background: var(--danger);
+    }
+
+    .client-card-body {
+      padding: 0 18px 18px;
+      display: none;
+    }
+
+    .client-card-body.open {
+      display: block;
+    }
+
+    .client-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .inline-edit {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .inline-edit .form-input {
+      font-size: 13px;
+      padding: 9px 12px;
+    }
+
+    /* RESERVAS */
+    .reserva-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      margin-bottom: 10px;
+    }
+
+    .reserva-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .reserva-cliente {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .reserva-datetime {
+      font-size: 13px;
+      color: var(--accent);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    .reserva-mensaje {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .reserva-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .estado-badge {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .estado-pendiente {
+      background: rgba(245, 168, 66, 0.15);
+      color: var(--warn);
+    }
+
+    .estado-confirmada {
+      background: rgba(66, 245, 168, 0.15);
+      color: var(--accent2);
+    }
+
+    .estado-rechazada {
+      background: rgba(245, 66, 66, 0.15);
+      color: var(--danger);
+    }
+
+    .estado-completada {
+      background: rgba(200, 245, 66, 0.1);
+      color: var(--accent);
+    }
+
+    /* SEARCH */
+    .search-box {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .search-box .form-input {
+      padding-left: 36px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    /* EMPTY */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .empty-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      z-index: 999;
+      transition: transform 0.3s ease;
+      white-space: nowrap;
+      max-width: 90vw;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.success {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .toast.error {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    /* LOADING */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 30px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px 20px 0 0;
+      padding: 24px 20px 36px;
+      width: 100%;
+      max-width: 480px;
+      transform: translateY(40px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal-title {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    /* Historial */
+    .historial-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+
+    .historial-item:last-child {
+      border-bottom: none;
+    }
+
+    .historial-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 480px) {
+      .stats-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .modal-overlay {
+        align-items: center;
+      }
+
+      .modal {
+        border-radius: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="header-logo">PT<span>.</span>Admin</div>
+    <div class="header-badge">Entrenador</div>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('dashboard')">Dashboard</button>
+    <button class="tab-btn" onclick="switchTab('clientes')">Clientes</button>
+    <button class="tab-btn" onclick="switchTab('reservas')" id="tab-reservas">Reservas</button>
+    <button class="tab-btn" onclick="switchTab('nuevo')">+ Nuevo</button>
+  </div>
+
+  <div class="main">
+
+    <!-- DASHBOARD -->
+    <div class="panel active" id="panel-dashboard">
+      <div style="margin-bottom:24px;margin-top:8px;">
+        <div style="font-family:var(--font-head);font-size:24px;font-weight:800;line-height:1.1;">
+          Panel de control
+        </div>
+        <div style="color:var(--muted);font-size:12px;margin-top:4px;" id="dash-fecha"></div>
+      </div>
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card">
+          <div class="stat-num" id="s-clientes">—</div>
+          <div class="stat-label">Clientes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="s-sesiones">—</div>
+          <div class="stat-label">Sesiones activas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="s-pendientes" style="color:var(--warn)">—</div>
+          <div class="stat-label">Pendientes</div>
+        </div>
+      </div>
+
+      <div class="section-title">Reservas pendientes</div>
+      <div id="dash-reservas-pendientes"></div>
+
+      <div class="section-title" style="margin-top:20px;">Bonos a punto de agotar</div>
+      <div id="dash-bonos-bajos"></div>
+    </div>
+
+    <!-- CLIENTES -->
+    <div class="panel" id="panel-clientes">
+      <div class="search-box" style="margin-top:12px;">
+        <span class="search-icon">⌕</span>
+        <input class="form-input" type="search" placeholder="Buscar cliente..." id="search-input"
+          oninput="filterClientes()">
+      </div>
+      <div id="clientes-list"></div>
+    </div>
+
+    <!-- RESERVAS -->
+    <div class="panel" id="panel-reservas">
+      <div style="margin-top:12px;margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-sm btn-ghost" id="filter-todas" onclick="filterReservas('todas')">Todas</button>
+        <button class="btn btn-sm" style="background:rgba(245,168,66,0.15);color:var(--warn);"
+          onclick="filterReservas('pendiente')">Pendientes</button>
+        <button class="btn btn-sm" style="background:rgba(66,245,168,0.15);color:var(--accent2);"
+          onclick="filterReservas('confirmada')">Confirmadas</button>
+        <button class="btn btn-sm btn-ghost" onclick="filterReservas('completada')">Completadas</button>
+      </div>
+      <div id="reservas-list"></div>
+    </div>
+
+    <!-- NUEVO CLIENTE -->
+    <div class="panel" id="panel-nuevo">
+      <div style="font-family:var(--font-head);font-size:20px;font-weight:800;margin:12px 0 20px;">Nuevo cliente</div>
+      <div class="form-card">
+        <div class="form-row">
+          <label class="form-label">Nombre completo</label>
+          <input class="form-input" type="text" id="new-nombre" placeholder="Ej: María García">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" id="new-email" placeholder="maria@ejemplo.com">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Sesiones del bono</label>
+          <input class="form-input" type="number" id="new-sesiones" value="10" min="1" max="100">
+        </div>
+        <button class="btn btn-primary btn-full" onclick="addCliente()">Crear cliente</button>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+
+  <!-- MODAL: Gestionar bono -->
+  <div class="modal-overlay" id="modal-bono" onclick="closeModal('modal-bono')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-title" id="modal-bono-title">Gestionar bono</div>
+      <div class="form-row">
+        <label class="form-label">Sesiones totales del bono</label>
+        <input class="form-input" type="number" id="modal-bono-total" min="1" max="200">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Sesiones ya usadas</label>
+        <input class="form-input" type="number" id="modal-bono-usadas" min="0">
+      </div>
+      <input type="hidden" id="modal-bono-id">
+      <div class="modal-actions">
+        <button class="btn btn-primary" style="flex:1" onclick="saveBono()">Guardar</button>
+        <button class="btn btn-ghost" onclick="closeModal('modal-bono')">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Historial cliente -->
+  <div class="modal-overlay" id="modal-historial" onclick="closeModal('modal-historial')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-title" id="modal-hist-title">Historial</div>
+      <div id="modal-hist-body"></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost btn-full" onclick="closeModal('modal-historial')">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ============================================================
+    // CONFIGURACIÓN — reemplaza con tu URL de Google Apps Script
+    // ============================================================
+    const API_URL = 'PEGA_AQUÍ_TU_URL_DE_APPS_SCRIPT';
+    // ============================================================
+
+    let clientes = [];
+    let reservas = [];
+    let currentFilter = 'todas';
+
+    // ---- API ----
+    async function api(action, data = {}) {
+      const body = JSON.stringify({ action, ...data });
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        body,
+        headers: { 'Content-Type': 'text/plain' }
+      });
+      return res.json();
+    }
+
+    // ---- INIT ----
+    async function init() {
+      document.getElementById('dash-fecha').textContent = new Date().toLocaleDateString('es-ES', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      });
+      await loadAll();
+    }
+
+    async function loadAll() {
+      [clientes, reservas] = await Promise.all([
+        api('getClientes'),
+        api('getReservas')
+      ]);
+      renderDashboard();
+      renderClientes();
+      renderReservas();
+      updatePendingBadge();
+    }
+
+    // ---- DASHBOARD ----
+    function renderDashboard() {
+      const activos = clientes.filter(c => c.activo);
+      const sesionesActivas = activos.reduce((s, c) => s + (Number(c.sesiones_totales) - Number(c.sesiones_usadas)), 0);
+      const pendientes = reservas.filter(r => r.estado === 'pendiente');
+
+      document.getElementById('s-clientes').textContent = activos.length;
+      document.getElementById('s-sesiones').textContent = sesionesActivas;
+      document.getElementById('s-pendientes').textContent = pendientes.length;
+
+      // Pendientes en dashboard
+      const el = document.getElementById('dash-reservas-pendientes');
+      if (pendientes.length === 0) {
+        el.innerHTML = '<div class="empty-state"><div class="empty-icon">✓</div>Sin reservas pendientes</div>';
+      } else {
+        el.innerHTML = pendientes.slice(0, 3).map(r => reservaCardHTML(r, true)).join('');
+      }
+
+      // Bonos bajos
+      const bajos = activos.filter(c => {
+        const rest = Number(c.sesiones_totales) - Number(c.sesiones_usadas);
+        return rest <= 2 && rest >= 0;
+      });
+      const elB = document.getElementById('dash-bonos-bajos');
+      if (bajos.length === 0) {
+        elB.innerHTML = '<div class="empty-state"><div class="empty-icon">🎯</div>Todos los bonos están bien</div>';
+      } else {
+        elB.innerHTML = bajos.map(c => {
+          const rest = Number(c.sesiones_totales) - Number(c.sesiones_usadas);
+          return `<div class="reserva-card" style="display:flex;align-items:center;gap:12px;">
+        <div style="flex:1">
+          <div class="reserva-cliente">${c.nombre}</div>
+          <div style="font-size:11px;color:var(--muted)">${c.email}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:var(--font-head);font-size:22px;font-weight:800;color:var(--danger)">${rest}</div>
+          <div style="font-size:9px;color:var(--muted)">sesiones</div>
+        </div>
+      </div>`;
+        }).join('');
+      }
+    }
+
+    // ---- CLIENTES ----
+    function renderClientes(filter = '') {
+      const el = document.getElementById('clientes-list');
+      const lista = clientes.filter(c => c.activo && (
+        !filter ||
+        c.nombre.toLowerCase().includes(filter) ||
+        c.email.toLowerCase().includes(filter)
+      ));
+      if (lista.length === 0) {
+        el.innerHTML = '<div class="empty-state"><div class="empty-icon">👤</div>Sin clientes</div>';
+        return;
+      }
+      el.innerHTML = '<div class="client-list">' + lista.map(clientCardHTML).join('') + '</div>';
+    }
+
+    function clientCardHTML(c) {
+      const total = Number(c.sesiones_totales);
+      const usadas = Number(c.sesiones_usadas);
+      const rest = total - usadas;
+      const pct = total > 0 ? Math.max(0, (rest / total) * 100) : 0;
+      const low = rest <= 2;
+      const initials = c.nombre.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+
+      return `<div class="client-card" id="card-${c.id}">
+    <div class="client-card-header" onclick="toggleCard('${c.id}')">
+      <div class="client-avatar">${initials}</div>
+      <div class="client-info">
+        <div class="client-name">${c.nombre}</div>
+        <div class="client-email">${c.email}</div>
+        <div class="progress-bar" style="margin-top:6px">
+          <div class="progress-fill ${low ? 'low' : ''}" style="width:${pct}%"></div>
+        </div>
+      </div>
+      <div class="client-sessions">
+        <div class="sessions-count ${low ? 'low' : 'ok'}">${rest}</div>
+        <div class="sessions-sub">/ ${total}</div>
+      </div>
+    </div>
+    <div class="client-card-body" id="body-${c.id}">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px">
+        Sesiones usadas: <strong style="color:var(--text)">${usadas}</strong> &nbsp;·&nbsp;
+        Restantes: <strong style="color:${low ? 'var(--danger)' : 'var(--accent)'}">${rest}</strong>
+      </div>
+      <div class="client-actions">
+        <button class="btn btn-sm btn-primary" onclick="openModalBono('${c.id}','${c.nombre}',${total},${usadas})">✎ Editar bono</button>
+        <button class="btn btn-sm btn-success" onclick="marcarSesion('${c.id}',${usadas},${total})">+ Usar sesión</button>
+        <button class="btn btn-sm btn-ghost" onclick="openHistorial('${c.id}')">Historial</button>
+        <button class="btn btn-sm btn-danger" onclick="archivarCliente('${c.id}','${c.nombre}')">Archivar</button>
+      </div>
+    </div>
+  </div>`;
+    }
+
+    function toggleCard(id) {
+      const body = document.getElementById('body-' + id);
+      body.classList.toggle('open');
+    }
+
+    function filterClientes() {
+      const q = document.getElementById('search-input').value.toLowerCase();
+      renderClientes(q);
+    }
+
+    // ---- RESERVAS ----
+    function reservaCardHTML(r, compact = false) {
+      const fecha = r.fecha_propuesta ? new Date(r.fecha_propuesta).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' }) : '—';
+      const hora = r.hora_propuesta || '—';
+      const acciones = r.estado === 'pendiente' ? `
+    <button class="btn btn-sm btn-success" onclick="responderReserva('${r.id}','confirmada','${r.cliente_id}')">✓ Confirmar</button>
+    <button class="btn btn-sm btn-danger" onclick="responderReserva('${r.id}','rechazada','${r.cliente_id}')">✗ Rechazar</button>
+  ` : r.estado === 'confirmada' ? `
+    <button class="btn btn-sm btn-primary" onclick="completarReserva('${r.id}','${r.cliente_id}')">Marcar completada</button>
+  ` : '';
+
+      return `<div class="reserva-card">
+    <div class="reserva-header">
+      <div>
+        <div class="reserva-cliente">${r.cliente_nombre}</div>
+        <div class="reserva-datetime">📅 ${fecha} &nbsp; ⏰ ${hora}</div>
+      </div>
+      <span class="estado-badge estado-${r.estado}">${r.estado}</span>
+    </div>
+    ${r.mensaje ? `<div class="reserva-mensaje">"${r.mensaje}"</div>` : ''}
+    ${!compact ? `<div class="reserva-actions">${acciones}</div>` : acciones ? `<div class="reserva-actions">${acciones}</div>` : ''}
+  </div>`;
+    }
+
+    function renderReservas() {
+      const el = document.getElementById('reservas-list');
+      let lista = [...reservas].sort((a, b) => new Date(b.fecha_creacion) - new Date(a.fecha_creacion));
+      if (currentFilter !== 'todas') lista = lista.filter(r => r.estado === currentFilter);
+      if (lista.length === 0) {
+        el.innerHTML = '<div class="empty-state"><div class="empty-icon">📆</div>Sin reservas</div>';
+        return;
+      }
+      el.innerHTML = lista.map(r => reservaCardHTML(r)).join('');
+    }
+
+    function filterReservas(f) {
+      currentFilter = f;
+      renderReservas();
+    }
+
+    function updatePendingBadge() {
+      const n = reservas.filter(r => r.estado === 'pendiente').length;
+      const tab = document.getElementById('tab-reservas');
+      tab.innerHTML = 'Reservas' + (n > 0 ? `<span class="badge-num">${n}</span>` : '');
+    }
+
+    // ---- ACCIONES ----
+    async function addCliente() {
+      const nombre = document.getElementById('new-nombre').value.trim();
+      const email = document.getElementById('new-email').value.trim();
+      const sesiones = parseInt(document.getElementById('new-sesiones').value);
+      if (!nombre || !email) return toast('Completa nombre y email', 'error');
+      toast('Creando cliente...');
+      await api('addCliente', { nombre, email, sesiones_totales: sesiones });
+      document.getElementById('new-nombre').value = '';
+      document.getElementById('new-email').value = '';
+      document.getElementById('new-sesiones').value = '10';
+      await loadAll();
+      toast('Cliente creado ✓', 'success');
+      switchTab('clientes');
+    }
+
+    async function marcarSesion(id, usadas, total) {
+      if (usadas >= total) return toast('Sin sesiones restantes', 'error');
+      await api('updateCliente', { id, sesiones_usadas: usadas + 1 });
+      await loadAll();
+      toast('Sesión registrada ✓', 'success');
+    }
+
+    async function responderReserva(id, estado, cliente_id) {
+      await api('updateReserva', { id, estado });
+      await loadAll();
+      toast(estado === 'confirmada' ? 'Reserva confirmada ✓' : 'Reserva rechazada', estado === 'confirmada' ? 'success' : '');
+    }
+
+    async function completarReserva(reserva_id, cliente_id) {
+      const c = clientes.find(x => x.id === cliente_id);
+      if (!c) return;
+      const nuevas = Number(c.sesiones_usadas) + 1;
+      if (nuevas > Number(c.sesiones_totales)) return toast('Sin sesiones restantes', 'error');
+      await api('usarSesion', { cliente_id, sesiones_usadas: nuevas, reserva_id });
+      await loadAll();
+      toast('Sesión completada y registrada ✓', 'success');
+    }
+
+    async function archivarCliente(id, nombre) {
+      if (!confirm(`¿Archivar a ${nombre}? Dejará de aparecer en la lista.`)) return;
+      await api('updateCliente', { id, activo: false });
+      await loadAll();
+      toast('Cliente archivado', '');
+    }
+
+    // ---- MODAL BONO ----
+    function openModalBono(id, nombre, total, usadas) {
+      document.getElementById('modal-bono-title').textContent = nombre;
+      document.getElementById('modal-bono-id').value = id;
+      document.getElementById('modal-bono-total').value = total;
+      document.getElementById('modal-bono-usadas').value = usadas;
+      document.getElementById('modal-bono').classList.add('open');
+    }
+
+    async function saveBono() {
+      const id = document.getElementById('modal-bono-id').value;
+      const total = parseInt(document.getElementById('modal-bono-total').value);
+      const usadas = parseInt(document.getElementById('modal-bono-usadas').value);
+      await api('updateCliente', { id, sesiones_totales: total, sesiones_usadas: usadas });
+      closeModal('modal-bono');
+      await loadAll();
+      toast('Bono actualizado ✓', 'success');
+    }
+
+    // ---- HISTORIAL ----
+    async function openHistorial(cliente_id) {
+      const c = clientes.find(x => x.id === cliente_id);
+      const reservasCliente = reservas.filter(r => r.cliente_id === cliente_id)
+        .sort((a, b) => new Date(b.fecha_creacion) - new Date(a.fecha_creacion));
+
+      document.getElementById('modal-hist-title').textContent = 'Historial — ' + (c ? c.nombre : '');
+
+      if (reservasCliente.length === 0) {
+        document.getElementById('modal-hist-body').innerHTML = '<div class="empty-state">Sin reservas registradas</div>';
+      } else {
+        document.getElementById('modal-hist-body').innerHTML = reservasCliente.map(r => {
+          const colors = { pendiente: 'var(--warn)', confirmada: 'var(--accent2)', rechazada: 'var(--danger)', completada: 'var(--accent)' };
+          const fecha = new Date(r.fecha_creacion).toLocaleDateString('es-ES');
+          return `<div class="historial-item">
+        <div class="historial-dot" style="background:${colors[r.estado]}"></div>
+        <div style="flex:1">
+          <div style="font-size:12px">${r.fecha_propuesta || '—'} ${r.hora_propuesta || ''}</div>
+          <div style="font-size:10px;color:var(--muted)">Propuesta: ${fecha}</div>
+        </div>
+        <span class="estado-badge estado-${r.estado}">${r.estado}</span>
+      </div>`;
+        }).join('');
+      }
+
+      document.getElementById('modal-historial').classList.add('open');
+    }
+
+    // ---- UTILS ----
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-' + tab).classList.add('active');
+      const btns = document.querySelectorAll('.tab-btn');
+      const tabs = ['dashboard', 'clientes', 'reservas', 'nuevo'];
+      const idx = tabs.indexOf(tab);
+      if (idx >= 0) btns[idx].classList.add('active');
+    }
+
+    let toastTimer;
+    function toast(msg, type = '') {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.className = 'toast show' + (type ? ' ' + type : '');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+    }
+
+    // ---- START ----
+    if (API_URL === 'Phttps://script.google.com/u/0/home/projects/1q3mF2Ppf1y_jTqSCMnCRSH1rS0nCJqGlN_u9iZbbVydYFcWatghVm0Xt/edit_URL_DE_APPS_SCRIPT') {
+      document.querySelector('.main').innerHTML = `
+    <div style="text-align:center;padding:60px 20px">
+      <div style="font-size:40px;margin-bottom:16px">⚙️</div>
+      <div style="font-family:var(--font-head);font-size:20px;font-weight:800;margin-bottom:10px">Configura el backend</div>
+      <div style="color:var(--muted);font-size:13px;line-height:1.6">
+        Sigue las instrucciones del archivo<br>
+        <strong style="color:var(--accent)">SETUP_GOOGLE_APPS_SCRIPT.md</strong><br>
+        y pega tu URL de Apps Script en este archivo.
+      </div>
+    </div>`;
+    } else {
+      init();
+    }
+  </script>
+</body>
+
+</html>
