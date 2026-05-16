@@ -3,171 +3,187 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#0f0f14">
-  <title>Mi Bono — Entrenamiento Personal</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap"
-    rel="stylesheet">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#2563eb">
+  <title>Mi Bono</title>
   <style>
-    :root {
-      --bg: #0f0f14;
-      --surface: #17171f;
-      --surface2: #1f1f2b;
-      --border: #27273a;
-      --accent: #c8f542;
-      --accent2: #42b8f5;
-      --danger: #f54265;
-      --warn: #f5c842;
-      --text: #eeecf8;
-      --muted: #5a5a7a;
-      --font-head: 'Syne', sans-serif;
-      --font-mono: 'DM Mono', monospace;
-      --radius: 14px;
-    }
-
-    * {
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --blue: #2563eb;
+      --blue-dk: #1d4ed8;
+      --blue-lt: #eff6ff;
+      --green: #16a34a;
+      --green-lt: #f0fdf4;
+      --red: #dc2626;
+      --red-lt: #fef2f2;
+      --amber: #d97706;
+      --amber-lt: #fffbeb;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-600: #4b5563;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --white: #ffffff;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, .08), 0 1px 2px rgba(0, 0, 0, .04);
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-mono);
+      font-family: var(--font);
+      background: var(--gray-50);
+      color: var(--gray-900);
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
       min-height: 100vh;
-      overflow-x: hidden;
     }
 
-    /* LOGIN SCREEN */
-    .login-screen {
+    /* ── LOGIN ── */
+    #login-screen {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 24px;
-    }
-
-    .login-logo {
-      font-family: var(--font-head);
-      font-size: 42px;
-      font-weight: 800;
-      letter-spacing: -2px;
-      margin-bottom: 6px;
-      line-height: 1;
-    }
-
-    .login-logo span {
-      color: var(--accent);
-    }
-
-    .login-sub {
-      font-size: 12px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 48px;
+      background: linear-gradient(160deg, var(--blue) 0%, var(--blue-dk) 100%);
     }
 
     .login-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 32px 24px;
       width: 100%;
       max-width: 380px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 28px 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+    }
+
+    .login-brand {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .login-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--blue-lt);
+      color: var(--blue);
+      font-size: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
     }
 
     .login-title {
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 6px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gray-900);
     }
 
-    .login-desc {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 24px;
+    .login-sub {
+      font-size: 14px;
+      color: var(--gray-400);
+      margin-top: 4px;
     }
 
-    /* FORM */
-    .form-row {
-      margin-bottom: 14px;
+    .form-group {
+      margin-bottom: 16px;
     }
 
     .form-label {
       display: block;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--muted);
-      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-700, #374151);
+      margin-bottom: 5px;
     }
 
     .form-input {
       width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--border);
+      padding: 12px 14px;
+      border: 1.5px solid var(--gray-200);
       border-radius: 10px;
-      padding: 14px 16px;
-      color: var(--text);
-      font-family: var(--font-mono);
-      font-size: 15px;
+      font-size: 16px;
+      /* 16px evita zoom en iOS */
+      font-family: var(--font);
+      color: var(--gray-900);
+      background: var(--white);
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color .15s;
       -webkit-appearance: none;
     }
 
     .form-input:focus {
-      border-color: var(--accent);
+      border-color: var(--blue);
     }
 
-    /* BUTTONS */
+    .error-msg {
+      display: none;
+      font-size: 13px;
+      color: var(--red);
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      background: var(--red-lt);
+      border-radius: 8px;
+    }
+
+    /* ── BUTTONS ── */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 14px 20px;
+      padding: 12px 18px;
       border: none;
       border-radius: 10px;
+      font-size: 15px;
+      font-family: var(--font);
+      font-weight: 600;
       cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.15s;
+      white-space: nowrap;
+      transition: opacity .15s, transform .1s;
       -webkit-user-select: none;
       user-select: none;
     }
 
     .btn:active {
-      transform: scale(0.97);
+      transform: scale(.97);
+      opacity: .85;
     }
 
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      font-weight: 600;
+    .btn:disabled {
+      opacity: .5;
+      pointer-events: none;
     }
 
-    .btn-secondary {
-      background: var(--accent2);
-      color: #000;
-      font-weight: 600;
+    .btn-blue {
+      background: var(--blue);
+      color: #fff;
     }
 
-    .btn-ghost {
-      background: var(--surface2);
-      color: var(--text);
+    .btn-gray {
+      background: var(--gray-100);
+      color: var(--gray-800);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--gray-200);
+      color: var(--gray-800);
     }
 
     .btn-full {
@@ -175,216 +191,256 @@
     }
 
     .btn-sm {
-      padding: 9px 14px;
-      font-size: 11px;
+      padding: 8px 14px;
+      font-size: 13px;
+      border-radius: 8px;
     }
 
-    /* APP SCREEN */
-    .app-screen {
+    /* ── APP ── */
+    #app-screen {
       display: none;
     }
 
-    .app-screen.active {
+    #app-screen.active {
       display: block;
     }
 
-    /* HEADER */
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(15, 15, 20, 0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 20px;
+    /* ── HEADER ── */
+    .topbar {
+      background: var(--blue);
+      color: #fff;
+      padding: 0 16px;
+      height: 56px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
     }
 
-    .header-name {
-      font-family: var(--font-head);
+    .topbar-name {
       font-size: 16px;
-      font-weight: 800;
+      font-weight: 700;
+    }
+
+    .topbar-sub {
+      font-size: 12px;
+      opacity: .7;
+      margin-top: 1px;
     }
 
     .logout-btn {
-      font-size: 11px;
-      color: var(--muted);
-      background: none;
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
       border: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: var(--font);
       cursor: pointer;
-      font-family: var(--font-mono);
-      text-transform: uppercase;
-      letter-spacing: 1px;
     }
 
-    /* MAIN */
-    .main {
-      padding: 20px;
+    /* ── MAIN ── */
+    .wrap {
       max-width: 480px;
       margin: 0 auto;
+      padding: 16px;
     }
 
-    /* BONO CARD */
+    /* ── BONO CARD ── */
     .bono-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 20px;
-      position: relative;
-      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 16px;
     }
 
-    .bono-card::before {
-      content: '';
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(200, 245, 66, 0.08), transparent 70%);
+    .bono-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
     }
 
     .bono-label {
-      font-size: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-400);
       text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--muted);
-      margin-bottom: 16px;
+      letter-spacing: .05em;
     }
 
-    .bono-ring-wrap {
+    .bono-main {
       display: flex;
       align-items: center;
-      gap: 24px;
-      margin-bottom: 16px;
+      gap: 20px;
     }
 
-    .ring-svg {
+    .ring-wrap {
       flex-shrink: 0;
     }
 
     .ring-bg {
       fill: none;
-      stroke: var(--border);
-      stroke-width: 8;
+      stroke: var(--gray-100);
+      stroke-width: 10;
     }
 
     .ring-fill {
       fill: none;
-      stroke-width: 8;
+      stroke-width: 10;
       stroke-linecap: round;
-      transform-origin: center;
+      transform-origin: 50% 50%;
       transform: rotate(-90deg);
-      transition: stroke-dashoffset 1s ease, stroke 0.3s;
+      transition: stroke-dashoffset .6s ease, stroke .3s;
     }
 
-    .ring-text-num {
-      font-family: var(--font-head);
-      font-size: 28px;
-      font-weight: 800;
+    .ring-n {
+      font-size: 26px;
+      font-weight: 700;
       dominant-baseline: central;
       text-anchor: middle;
     }
 
-    .ring-text-sub {
-      font-size: 10px;
+    .ring-sub {
+      font-size: 11px;
       dominant-baseline: central;
       text-anchor: middle;
-      fill: var(--muted);
+      fill: var(--gray-400);
     }
 
-    .bono-meta {
+    .bono-stats {
       flex: 1;
     }
 
-    .bono-meta-row {
+    .bono-stat {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 8px;
+      font-size: 14px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--gray-100);
     }
 
-    .bono-meta-label {
-      font-size: 11px;
-      color: var(--muted);
+    .bono-stat:last-child {
+      border-bottom: none;
     }
 
-    .bono-meta-val {
-      font-family: var(--font-head);
-      font-size: 16px;
+    .bono-stat-label {
+      color: var(--gray-600);
+    }
+
+    .bono-stat-val {
       font-weight: 700;
     }
 
-    .bono-progress {
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
+    .bono-bar-wrap {
+      margin-top: 16px;
+    }
+
+    .bono-bar-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-bottom: 6px;
+    }
+
+    .bono-bar {
+      height: 8px;
+      background: var(--gray-100);
+      border-radius: 999px;
       overflow: hidden;
     }
 
-    .bono-progress-fill {
+    .bono-bar-fill {
       height: 100%;
-      border-radius: 2px;
-      transition: width 0.8s ease;
+      border-radius: 999px;
+      transition: width .5s;
     }
 
-    /* SECTION TITLE */
-    .section-title {
-      font-family: var(--font-head);
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--muted);
-      margin-bottom: 14px;
+    .alert {
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 14px;
+      margin-bottom: 16px;
       display: flex;
-      align-items: center;
-      gap: 8px;
+      gap: 10px;
+      align-items: flex-start;
     }
 
-    .section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
+    .alert-amber {
+      background: var(--amber-lt);
+      color: var(--amber);
+      border: 1px solid #fde68a;
     }
 
-    /* RESERVAR */
-    .reservar-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+    .alert-red {
+      background: var(--red-lt);
+      color: var(--red);
+      border: 1px solid #fca5a5;
+    }
+
+    /* ── SECTION ── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin: 20px 0 10px;
+    }
+
+    /* ── PROPONER RESERVA ── */
+    .reserva-form {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
       border-radius: var(--radius);
       padding: 20px;
-      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
     }
 
-    .reservar-title {
-      font-family: var(--font-head);
+    .reserva-form-title {
       font-size: 16px;
-      font-weight: 800;
+      font-weight: 700;
       margin-bottom: 4px;
     }
 
-    .reservar-desc {
-      font-size: 11px;
-      color: var(--muted);
+    .reserva-form-desc {
+      font-size: 13px;
+      color: var(--gray-600);
       margin-bottom: 18px;
     }
 
-    /* HISTORIAL */
-    .hist-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 16px;
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* ── HISTORIAL ── */
+    .hist-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
       margin-bottom: 8px;
+    }
+
+    .hist-item {
       display: flex;
       align-items: center;
       gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .hist-item:last-child {
+      border-bottom: none;
     }
 
     .hist-dot {
@@ -399,70 +455,82 @@
       min-width: 0;
     }
 
-    .hist-fecha {
-      font-size: 13px;
-      font-weight: 500;
+    .hist-date {
+      font-weight: 600;
+      font-size: 14px;
     }
 
     .hist-hora {
-      font-size: 11px;
-      color: var(--muted);
+      font-size: 12px;
+      color: var(--gray-400);
     }
 
     .hist-msg {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 2px;
+      font-size: 12px;
+      color: var(--gray-600);
       font-style: italic;
+      margin-top: 2px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .estado-badge {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 3px 8px;
-      border-radius: 20px;
-      font-weight: 500;
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
       flex-shrink: 0;
     }
 
-    .estado-pendiente {
-      background: rgba(245, 200, 66, 0.15);
-      color: var(--warn);
+    .badge-pending {
+      background: var(--amber-lt);
+      color: var(--amber);
     }
 
-    .estado-confirmada {
-      background: rgba(66, 184, 245, 0.15);
-      color: var(--accent2);
+    .badge-confirm {
+      background: var(--green-lt);
+      color: var(--green);
     }
 
-    .estado-rechazada {
-      background: rgba(245, 66, 101, 0.15);
-      color: var(--danger);
+    .badge-reject {
+      background: var(--red-lt);
+      color: var(--red);
     }
 
-    .estado-completada {
-      background: rgba(200, 245, 66, 0.1);
-      color: var(--accent);
+    .badge-done {
+      background: var(--gray-100);
+      color: var(--gray-600);
     }
 
-    /* TOAST */
+    /* ── EMPTY ── */
+    .empty {
+      text-align: center;
+      padding: 28px 16px;
+      color: var(--gray-400);
+      font-size: 14px;
+    }
+
+    .empty-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    /* ── TOAST ── */
     .toast {
       position: fixed;
       bottom: 24px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 12px 20px;
+      transform: translateX(-50%) translateY(60px);
+      background: var(--gray-900);
+      color: #fff;
+      padding: 11px 20px;
       border-radius: 10px;
-      font-size: 13px;
+      font-size: 14px;
       z-index: 999;
-      transition: transform 0.3s ease;
+      transition: transform .25s ease;
+      pointer-events: none;
       white-space: nowrap;
       max-width: 90vw;
     }
@@ -471,351 +539,365 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    .toast.success {
-      border-color: var(--accent);
-      color: var(--accent);
+    .toast.ok {
+      background: var(--green);
     }
 
-    .toast.error {
-      border-color: var(--danger);
-      color: var(--danger);
+    .toast.err {
+      background: var(--red);
     }
 
-    /* LOADING */
-    .loading {
-      display: flex;
+    /* ── SETUP ── */
+    .setup-screen {
+      min-height: 100vh;
+      display: none;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      padding: 40px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .empty-state {
       text-align: center;
-      padding: 32px 20px;
-      color: var(--muted);
-      font-size: 12px;
+      padding: 32px 24px;
+      background: var(--gray-50);
     }
 
-    .empty-icon {
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
-
-    .alert {
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-size: 12px;
-      margin-bottom: 16px;
-    }
-
-    .alert-warn {
-      background: rgba(245, 200, 66, 0.08);
-      border: 1px solid rgba(245, 200, 66, 0.2);
-      color: var(--warn);
-    }
-
-    .alert-danger {
-      background: rgba(245, 66, 101, 0.08);
-      border: 1px solid rgba(245, 66, 101, 0.2);
-      color: var(--danger);
+    .setup-screen.show {
+      display: flex;
     }
   </style>
 </head>
 
 <body>
 
+  <!-- SETUP (si falta la URL) -->
+  <div class="setup-screen" id="setup-screen">
+    <div style="font-size:48px;margin-bottom:16px">⚙️</div>
+    <div style="font-size:20px;font-weight:700;margin-bottom:8px">App no configurada</div>
+    <div style="font-size:14px;color:var(--gray-600);max-width:300px;line-height:1.6">
+      Tu entrenador aún no ha configurado la aplicación.<br>Contacta con él para obtener el enlace correcto.
+    </div>
+  </div>
+
   <!-- LOGIN -->
-  <div class="login-screen" id="login-screen">
-    <div class="login-logo">PT<span>.</span></div>
-    <div class="login-sub">Entrenamiento Personal</div>
+  <div id="login-screen">
     <div class="login-card">
-      <div class="login-title">Accede a tu bono</div>
-      <div class="login-desc">Introduce el email con el que te registró tu entrenador.</div>
-      <div class="form-row">
+      <div class="login-brand">
+        <div class="login-icon">🏋️</div>
+        <div class="login-title">Mi bono de entrenamiento</div>
+        <div class="login-sub">Consulta tus sesiones y reserva</div>
+      </div>
+      <div class="form-group">
         <label class="form-label">Tu email</label>
         <input class="form-input" type="email" id="login-email" placeholder="tu@email.com" autocomplete="email"
-          onkeydown="if(event.key==='Enter')doLogin()">
+          inputmode="email" onkeydown="if(event.key==='Enter') doLogin()">
       </div>
-      <div id="login-error" style="color:var(--danger);font-size:12px;margin-bottom:12px;display:none">
-        Email no encontrado. Contacta con tu entrenador.
+      <div class="error-msg" id="login-error">
+        No encontramos ese email. Comprueba que es el mismo que tu entrenador usó para darte de alta.
       </div>
-      <button class="btn btn-primary btn-full" onclick="doLogin()">Entrar</button>
+      <button class="btn btn-blue btn-full" id="login-btn" onclick="doLogin()">Entrar</button>
     </div>
   </div>
 
   <!-- APP -->
-  <div class="app-screen" id="app-screen">
-    <div class="header">
-      <div class="header-name" id="app-nombre">—</div>
+  <div id="app-screen">
+
+    <!-- HEADER -->
+    <div class="topbar">
+      <div>
+        <div class="topbar-name" id="app-name">—</div>
+        <div class="topbar-sub">Mi área de entrenamiento</div>
+      </div>
       <button class="logout-btn" onclick="logout()">Salir</button>
     </div>
 
-    <div class="main" id="app-main">
-      <div class="loading">
-        <div class="spinner"></div>Cargando...
+    <!-- CONTENIDO -->
+    <div class="wrap" id="app-content">
+      <div class="empty" style="padding:60px 0">
+        <div class="empty-icon">⏳</div>Cargando…
       </div>
     </div>
+
   </div>
 
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
   <script>
-    // ============================================================
-    // CONFIGURACIÓN — reemplaza con tu URL de Google Apps Script
-    // ============================================================
-    const API_URL = 'Phttps://script.google.com/u/0/home/projects/1q3mF2Ppf1y_jTqSCMnCRSH1rS0nCJqGlN_u9iZbbVydYFcWatghVm0Xt/edit';
-    // ============================================================
+    // ══════════════════════════════════════════════════
+    //  ▶ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
+    const API_URL = 'PEGA_AQUÍ_TU_URL_DE_APPS_SCRIPT';
+    // ══════════════════════════════════════════════════
 
-    let clienteData = null;
-    let reservasData = [];
+    let cliente = null;
+    let reservas = [];
 
-    // ---- API ----
-    async function api(action, data = {}) {
-      const body = JSON.stringify({ action, ...data });
-      const res = await fetch(API_URL, {
+    // ── API ──
+    async function call(action, data = {}) {
+      const r = await fetch(API_URL, {
         method: 'POST',
-        body,
+        body: JSON.stringify({ action, ...data }),
         headers: { 'Content-Type': 'text/plain' }
       });
-      return res.json();
+      if (!r.ok) throw new Error('Error de red');
+      return r.json();
     }
 
-    // ---- LOGIN ----
+    // ── LOGIN ──
     async function doLogin() {
       const email = document.getElementById('login-email').value.trim();
       if (!email) return;
-      const btn = document.querySelector('#login-screen .btn-primary');
-      btn.textContent = 'Buscando...';
+
+      const btn = document.getElementById('login-btn');
+      const errEl = document.getElementById('login-error');
+      errEl.style.display = 'none';
       btn.disabled = true;
-      document.getElementById('login-error').style.display = 'none';
+      btn.textContent = 'Buscando…';
 
-      const result = await api('getClienteByEmail', { email });
-
-      btn.textContent = 'Entrar';
-      btn.disabled = false;
-
-      if (result.error) {
-        document.getElementById('login-error').style.display = 'block';
-        return;
+      try {
+        const res = await call('getClienteByEmail', { email });
+        if (res.error) {
+          errEl.style.display = 'block';
+          return;
+        }
+        // Guardar sesión
+        localStorage.setItem('pt_email', email);
+        localStorage.setItem('pt_nombre', res.nombre);
+        localStorage.setItem('pt_id', res.id);
+        enterApp(res);
+      } catch (e) {
+        toast('Error de conexión. Inténtalo de nuevo.', 'err');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Entrar';
       }
-
-      // Guardar sesión local
-      localStorage.setItem('pt_email', email);
-      localStorage.setItem('pt_nombre', result.nombre);
-      localStorage.setItem('pt_id', result.id);
-
-      enterApp(result);
     }
 
     function logout() {
       localStorage.removeItem('pt_email');
       localStorage.removeItem('pt_nombre');
       localStorage.removeItem('pt_id');
-      clienteData = null;
-      reservasData = [];
-      document.getElementById('login-screen').style.display = 'flex';
+      cliente = null;
+      reservas = [];
       document.getElementById('app-screen').classList.remove('active');
+      document.getElementById('login-screen').style.display = '';
       document.getElementById('login-email').value = '';
+      document.getElementById('login-error').style.display = 'none';
     }
 
-    async function enterApp(cliente) {
-      clienteData = cliente;
-      document.getElementById('app-nombre').textContent = cliente.nombre.split(' ')[0];
+    // ── ENTRAR A LA APP ──
+    async function enterApp(c) {
+      cliente = c;
+      document.getElementById('app-name').textContent = c.nombre.split(' ')[0];
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('app-screen').classList.add('active');
-      await loadAppData();
+      await loadData();
     }
 
-    async function loadAppData() {
-      const todasReservas = await api('getReservas');
-      reservasData = Array.isArray(todasReservas)
-        ? todasReservas.filter(r => r.cliente_id === clienteData.id)
-        : [];
+    async function loadData() {
+      try {
+        // Datos frescos del cliente
+        const fresh = await call('getClienteByEmail', { email: localStorage.getItem('pt_email') });
+        if (!fresh.error) cliente = fresh;
 
-      // Recargar datos frescos del cliente
-      const c = await api('getClienteByEmail', { email: clienteData.email });
-      if (!c.error) clienteData = c;
-
+        // Reservas del cliente
+        const todas = await call('getReservas');
+        reservas = Array.isArray(todas) ? todas.filter(r => r.cliente_id === cliente.id) : [];
+      } catch (e) {
+        toast('Error al cargar datos', 'err');
+      }
       renderApp();
     }
 
-    // ---- RENDER APP ----
+    // ── RENDER PRINCIPAL ──
     function renderApp() {
-      const total = Number(clienteData.sesiones_totales);
-      const usadas = Number(clienteData.sesiones_usadas);
-      const rest = total - usadas;
-      const pct = total > 0 ? (rest / total) : 0;
+      const total = num(cliente.sesiones_totales);
+      const usadas = num(cliente.sesiones_usadas);
+      const rest = Math.max(0, total - usadas);
+      const pct = total > 0 ? rest / total : 0;
 
-      // Ring
-      const r = 44;
-      const circ = 2 * Math.PI * r;
-      const offset = circ * (1 - pct);
-      const ringColor = rest === 0 ? 'var(--danger)' : rest <= 2 ? 'var(--warn)' : 'var(--accent)';
-      const textColor = ringColor;
+      // Color según sesiones restantes
+      const color = rest === 0 ? 'var(--red)' : rest <= 2 ? 'var(--amber)' : 'var(--blue)';
 
-      // Alert
+      // SVG ring
+      const R = 44;
+      const circ = +(2 * Math.PI * R).toFixed(2);
+      const dash = +(circ * (1 - pct)).toFixed(2);
+
+      // Alerta
       let alertHTML = '';
-      if (rest === 0) alertHTML = `<div class="alert alert-danger">⚠️ Tu bono se ha agotado. Contacta con tu entrenador para renovarlo.</div>`;
-      else if (rest <= 2) alertHTML = `<div class="alert alert-warn">⚡ Te quedan pocas sesiones. ¡Habla con tu entrenador para renovar!</div>`;
+      if (rest === 0) {
+        alertHTML = `<div class="alert alert-red">⚠️ Tu bono se ha agotado. Habla con tu entrenador para renovarlo.</div>`;
+      } else if (rest <= 2) {
+        alertHTML = `<div class="alert alert-amber">⚡ Te quedan muy pocas sesiones. ¡Habla con tu entrenador para renovar pronto!</div>`;
+      }
+
+      // Formulario de reserva (solo si quedan sesiones)
+      let reservaHTML = '';
+      if (rest > 0) {
+        reservaHTML = `
+    <div class="section-label">Proponer una sesión</div>
+    <div class="reserva-form">
+      <div class="reserva-form-title">Nueva propuesta</div>
+      <div class="reserva-form-desc">Elige fecha y hora. Tu entrenador la confirmará o rechazará.</div>
+      <div class="form-group">
+        <label class="form-label">Fecha</label>
+        <input class="form-input" type="date" id="prop-fecha" min="${hoy()}">
+      </div>
+      <div class="form-row-2">
+        <div class="form-group">
+          <label class="form-label">Hora preferida</label>
+          <input class="form-input" type="time" id="prop-hora">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mensaje (opcional)</label>
+          <input class="form-input" type="text" id="prop-msg" placeholder="Ej: mañana">
+        </div>
+      </div>
+      <button class="btn btn-blue btn-full" id="prop-btn" onclick="proponerReserva()">Enviar propuesta</button>
+    </div>`;
+      } else {
+        reservaHTML = `
+    <div class="section-label">Proponer una sesión</div>
+    <div class="hist-card"><div class="empty">Renueva tu bono para poder proponer sesiones.</div></div>`;
+      }
 
       // Historial
-      const histHTML = reservasData.length === 0
-        ? '<div class="empty-state"><div class="empty-icon">📆</div>Aún no tienes reservas</div>'
-        : reservasData
-          .sort((a, b) => new Date(b.fecha_creacion) - new Date(a.fecha_creacion))
-          .map(r => {
-            const colors = { pendiente: 'var(--warn)', confirmada: 'var(--accent2)', rechazada: 'var(--danger)', completada: 'var(--accent)' };
-            const fecha = r.fecha_propuesta
-              ? new Date(r.fecha_propuesta).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' })
-              : '—';
-            return `<div class="hist-item">
-            <div class="hist-dot" style="background:${colors[r.estado]}"></div>
-            <div class="hist-info">
-              <div class="hist-fecha">${fecha}${r.hora_propuesta ? ' · ' + r.hora_propuesta : ''}</div>
-              ${r.mensaje ? `<div class="hist-msg">"${r.mensaje}"</div>` : ''}
-            </div>
-            <span class="estado-badge estado-${r.estado}">${r.estado}</span>
-          </div>`;
-          }).join('');
+      const sorted = [...reservas].sort((a, b) => new Date(b.fecha_creacion) - new Date(a.fecha_creacion));
+      const histHTML = sorted.length === 0
+        ? '<div class="hist-card"><div class="empty"><div class="empty-icon">📅</div>Aún no tienes reservas</div></div>'
+        : '<div class="hist-card">' + sorted.map(r => {
+          const colors = { pendiente: 'var(--amber)', confirmada: 'var(--green)', rechazada: 'var(--red)', completada: 'var(--gray-400)' };
+          const badges = { pendiente: 'badge-pending', confirmada: 'badge-confirm', rechazada: 'badge-reject', completada: 'badge-done' };
+          const labels = { pendiente: 'Pendiente', confirmada: 'Confirmada', rechazada: 'Rechazada', completada: 'Completada' };
+          const fecha = r.fecha_propuesta
+            ? new Date(r.fecha_propuesta + 'T00:00:00').toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })
+            : '—';
+          return `<div class="hist-item">
+          <div class="hist-dot" style="background:${colors[r.estado] || '#ccc'}"></div>
+          <div class="hist-info">
+            <div class="hist-date">${fecha}</div>
+            <div class="hist-hora">${r.hora_propuesta || ''}</div>
+            ${r.mensaje ? `<div class="hist-msg">"${esc(r.mensaje)}"</div>` : ''}
+          </div>
+          <span class="badge ${badges[r.estado] || 'badge-done'}">${labels[r.estado] || r.estado}</span>
+        </div>`;
+        }).join('') + '</div>';
 
-      // Formulario de reserva
-      const puedeProponer = rest > 0;
-      const reservaHTML = puedeProponer ? `
-    <div class="reservar-card">
-      <div class="reservar-title">Proponer sesión</div>
-      <div class="reservar-desc">Tu entrenador confirmará o rechazará la propuesta.</div>
-      <div class="form-row">
-        <label class="form-label">Fecha</label>
-        <input class="form-input" type="date" id="prop-fecha" min="${today()}">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Hora preferida</label>
-        <input class="form-input" type="time" id="prop-hora">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Mensaje (opcional)</label>
-        <input class="form-input" type="text" id="prop-msg" placeholder="Ej: Prefiero por la mañana">
-      </div>
-      <button class="btn btn-secondary btn-full" onclick="proponerReserva()">Enviar propuesta</button>
-    </div>
-  ` : '';
+      document.getElementById('app-content').innerHTML = `
 
-      document.getElementById('app-main').innerHTML = `
     ${alertHTML}
 
+    <div class="section-label">Mi bono actual</div>
     <div class="bono-card">
-      <div class="bono-label">Mi bono activo</div>
-      <div class="bono-ring-wrap">
-        <svg class="ring-svg" width="100" height="100" viewBox="0 0 100 100">
-          <circle class="ring-bg" cx="50" cy="50" r="${r}"/>
-          <circle class="ring-fill"
-            cx="50" cy="50" r="${r}"
-            stroke="${ringColor}"
-            stroke-dasharray="${circ}"
-            stroke-dashoffset="${offset}"/>
-          <text class="ring-text-num" x="50" y="46" fill="${textColor}">${rest}</text>
-          <text class="ring-text-sub" x="50" y="62" fill="var(--muted)">restantes</text>
-        </svg>
-        <div class="bono-meta">
-          <div class="bono-meta-row">
-            <span class="bono-meta-label">Total bono</span>
-            <span class="bono-meta-val">${total}</span>
+      <div class="bono-main">
+        <div class="ring-wrap">
+          <svg width="110" height="110" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle class="ring-bg" cx="50" cy="50" r="${R}"/>
+            <circle class="ring-fill"
+              cx="50" cy="50" r="${R}"
+              stroke="${color}"
+              stroke-dasharray="${circ}"
+              stroke-dashoffset="${dash}"/>
+            <text class="ring-n" x="50" y="46" fill="${color}">${rest}</text>
+            <text class="ring-sub" x="50" y="64">restantes</text>
+          </svg>
+        </div>
+        <div class="bono-stats">
+          <div class="bono-stat">
+            <span class="bono-stat-label">Bono total</span>
+            <span class="bono-stat-val">${total} sesiones</span>
           </div>
-          <div class="bono-meta-row">
-            <span class="bono-meta-label">Usadas</span>
-            <span class="bono-meta-val">${usadas}</span>
+          <div class="bono-stat">
+            <span class="bono-stat-label">Utilizadas</span>
+            <span class="bono-stat-val">${usadas}</span>
           </div>
-          <div class="bono-progress" style="margin-top:4px">
-            <div class="bono-progress-fill" style="width:${(usadas / total * 100).toFixed(1)}%;background:${rest <= 2 ? 'var(--danger)' : 'var(--accent)'}"></div>
+          <div class="bono-stat">
+            <span class="bono-stat-label">Disponibles</span>
+            <span class="bono-stat-val" style="color:${color}">${rest}</span>
           </div>
+        </div>
+      </div>
+      <div class="bono-bar-wrap">
+        <div class="bono-bar-top">
+          <span>Progreso del bono</span>
+          <span>${usadas} / ${total}</span>
+        </div>
+        <div class="bono-bar">
+          <div class="bono-bar-fill" style="width:${total > 0 ? (usadas / total * 100).toFixed(1) : 0}%;background:${color}"></div>
         </div>
       </div>
     </div>
 
-    <div class="section-title">Reservar sesión</div>
-    ${reservaHTML || '<div class="empty-state" style="margin-bottom:20px"><div class="empty-icon">🚫</div>Renueva tu bono para seguir reservando</div>'}
+    ${reservaHTML}
 
-    <div class="section-title">Historial</div>
+    <div class="section-label">Historial de reservas</div>
     ${histHTML}
+    <div style="height:24px"></div>
   `;
     }
 
-    // ---- PROPONER RESERVA ----
+    // ── PROPONER RESERVA ──
     async function proponerReserva() {
-      const fecha = document.getElementById('prop-fecha').value;
-      const hora = document.getElementById('prop-hora').value;
-      const msg = document.getElementById('prop-msg').value.trim();
+      const fecha = document.getElementById('prop-fecha')?.value;
+      const hora = document.getElementById('prop-hora')?.value;
+      const msg = document.getElementById('prop-msg')?.value.trim();
 
-      if (!fecha || !hora) return toast('Selecciona fecha y hora', 'error');
+      if (!fecha) return toast('Selecciona una fecha', 'err');
+      if (!hora) return toast('Selecciona una hora', 'err');
 
-      const btn = document.querySelector('#app-main .btn-secondary');
-      btn.textContent = 'Enviando...'; btn.disabled = true;
+      const btn = document.getElementById('prop-btn');
+      btn.disabled = true; btn.textContent = 'Enviando…';
 
-      await api('addReserva', {
-        cliente_id: clienteData.id,
-        cliente_nombre: clienteData.nombre,
-        fecha_propuesta: fecha,
-        hora_propuesta: hora,
-        mensaje: msg
-      });
-
-      toast('¡Propuesta enviada! Tu entrenador la confirmará pronto.', 'success');
-      await loadAppData();
+      try {
+        await call('addReserva', {
+          cliente_id: cliente.id,
+          cliente_nombre: cliente.nombre,
+          fecha_propuesta: fecha,
+          hora_propuesta: hora,
+          mensaje: msg || ''
+        });
+        toast('¡Propuesta enviada! Tu entrenador te responderá pronto.', 'ok');
+        await loadData();
+      } catch (e) {
+        toast('Error al enviar la propuesta', 'err');
+        btn.disabled = false; btn.textContent = 'Enviar propuesta';
+      }
     }
 
-    // ---- UTILS ----
-    function today() {
-      return new Date().toISOString().split('T')[0];
-    }
+    // ── UTILS ──
+    function num(v) { return parseInt(v) || 0; }
+    function hoy() { return new Date().toISOString().split('T')[0]; }
+    function esc(s) { return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
-    let toastTimer;
+    let _t;
     function toast(msg, type = '') {
       const el = document.getElementById('toast');
       el.textContent = msg;
       el.className = 'toast show' + (type ? ' ' + type : '');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+      clearTimeout(_t);
+      _t = setTimeout(() => el.classList.remove('show'), 3000);
     }
 
-    // ---- AUTO LOGIN ----
+    // ── ARRANQUE ──
     window.addEventListener('load', async () => {
-      if (API_URL === 'PEGA_AQUÍ_TU_URL_DE_APPS_SCRIPT') {
-        document.getElementById('login-screen').innerHTML = `
-      <div style="text-align:center;padding:40px 20px">
-        <div style="font-size:40px;margin-bottom:16px">⚙️</div>
-        <div style="font-family:var(--font-head);font-size:20px;font-weight:800;margin-bottom:10px">App no configurada</div>
-        <div style="color:var(--muted);font-size:13px;line-height:1.6">
-          Contacta con tu entrenador para obtener<br>el enlace correcto de la aplicación.
-        </div>
-      </div>`;
+      // URL no configurada
+      if (API_URL === 'PEGA_AQhttps://script.google.com/u/0/home/projects/1q3mF2Ppf1y_jTqSCMnCRSH1rS0nCJqGlN_u9iZbbVydYFcWatghVm0Xt/editUÍ_TU_URL_DE_APPS_SCRIPT') {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('setup-screen').classList.add('show');
         return;
       }
 
-      const savedEmail = localStorage.getItem('pt_email');
-      if (savedEmail) {
-        const c = await api('getClienteByEmail', { email: savedEmail });
-        if (!c.error) {
-          enterApp(c);
-        }
+      // Sesión guardada → auto-login
+      const saved = localStorage.getItem('pt_email');
+      if (saved) {
+        try {
+          const c = await call('getClienteByEmail', { email: saved });
+          if (!c.error) {
+            enterApp(c);
+            return;
+          }
+        } catch (e) { /* nada, mostrar login */ }
+        localStorage.removeItem('pt_email');
+        localStorage.removeItem('pt_nombre');
+        localStorage.removeItem('pt_id');
       }
     });
   </script>

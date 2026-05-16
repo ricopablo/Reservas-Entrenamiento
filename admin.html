@@ -3,344 +3,233 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#0a0a0a">
-  <title>PT Admin — Panel de Control</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap"
-    rel="stylesheet">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#ffffff">
+  <title>Panel Entrenador</title>
   <style>
-    :root {
-      --bg: #0a0a0a;
-      --surface: #141414;
-      --surface2: #1e1e1e;
-      --border: #2a2a2a;
-      --accent: #c8f542;
-      --accent2: #42f5a8;
-      --danger: #f54242;
-      --warn: #f5a842;
-      --text: #f0f0f0;
-      --muted: #666;
-      --font-head: 'Syne', sans-serif;
-      --font-mono: 'DM Mono', monospace;
-      --radius: 12px;
-    }
-
-    * {
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --blue: #2563eb;
+      --blue-lt: #eff6ff;
+      --green: #16a34a;
+      --green-lt: #f0fdf4;
+      --red: #dc2626;
+      --red-lt: #fef2f2;
+      --amber: #d97706;
+      --amber-lt: #fffbeb;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-600: #4b5563;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --white: #ffffff;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, .08), 0 1px 2px rgba(0, 0, 0, .04);
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-mono);
-      min-height: 100vh;
-      overflow-x: hidden;
+      font-family: var(--font);
+      background: var(--gray-50);
+      color: var(--gray-900);
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* HEADER */
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(10, 10, 10, 0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 20px;
+    /* ── HEADER ── */
+    .topbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
     }
 
-    .header-logo {
-      font-family: var(--font-head);
-      font-weight: 800;
-      font-size: 18px;
-      letter-spacing: -0.5px;
+    .topbar-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray-900);
     }
 
-    .header-logo span {
-      color: var(--accent);
+    .topbar-sub {
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-top: 1px;
     }
 
-    .header-badge {
-      background: var(--accent);
-      color: #000;
-      font-size: 10px;
-      font-weight: 500;
-      padding: 3px 8px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* NAV TABS */
-    .nav-tabs {
+    /* ── NAV ── */
+    .nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
       display: flex;
-      border-bottom: 1px solid var(--border);
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
 
-    .nav-tabs::-webkit-scrollbar {
+    .nav::-webkit-scrollbar {
       display: none;
     }
 
-    .tab-btn {
+    .nav-btn {
       flex-shrink: 0;
-      padding: 14px 20px;
-      background: none;
+      padding: 12px 18px;
       border: none;
-      color: var(--muted);
+      background: none;
+      font-size: 14px;
+      font-family: var(--font);
+      color: var(--gray-600);
       cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
       border-bottom: 2px solid transparent;
-      transition: all 0.2s;
       white-space: nowrap;
+      transition: color .15s, border-color .15s;
     }
 
-    .tab-btn.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
+    .nav-btn.active {
+      color: var(--blue);
+      border-bottom-color: var(--blue);
+      font-weight: 600;
     }
 
-    .tab-btn .badge-num {
+    .nav-badge {
       display: inline-block;
-      background: var(--danger);
+      background: var(--red);
       color: #fff;
-      border-radius: 20px;
-      font-size: 9px;
-      padding: 1px 5px;
+      border-radius: 999px;
+      font-size: 11px;
+      padding: 1px 6px;
       margin-left: 5px;
       vertical-align: middle;
+      font-weight: 600;
     }
 
-    /* MAIN */
-    .main {
-      padding: 20px;
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    /* PANEL */
-    .panel {
+    /* ── MAIN ── */
+    .page {
       display: none;
     }
 
-    .panel.active {
+    .page.active {
       display: block;
     }
 
-    /* STATS ROW */
-    .stats-row {
+    .wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card+.card {
+      margin-top: 12px;
+    }
+
+    /* ── STATS ── */
+    .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
     }
 
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+    .stat {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
       border-radius: var(--radius);
-      padding: 16px 14px;
+      padding: 14px 12px;
       text-align: center;
+      box-shadow: var(--shadow);
     }
 
-    .stat-num {
-      font-family: var(--font-head);
+    .stat-n {
       font-size: 28px;
-      font-weight: 800;
-      color: var(--accent);
+      font-weight: 700;
+      color: var(--blue);
       line-height: 1;
     }
 
-    .stat-label {
-      font-size: 9px;
-      color: var(--muted);
+    .stat-n.warn {
+      color: var(--amber);
+    }
+
+    .stat-l {
+      font-size: 11px;
+      color: var(--gray-400);
+      margin-top: 3px;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .06em;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 4px;
+      color: var(--gray-400);
+      margin: 20px 0 8px;
     }
 
-    /* SECTION TITLE */
-    .section-title {
-      font-family: var(--font-head);
-      font-size: 14px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--muted);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* FORM */
-    .form-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .form-row {
-      margin-bottom: 14px;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    .form-input {
-      width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 14px;
-      color: var(--text);
-      font-family: var(--font-mono);
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-input:focus {
-      border-color: var(--accent);
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    /* BUTTONS */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.15s;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    .btn:active {
-      transform: scale(0.97);
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-    }
-
-    .btn-primary:hover {
-      background: #d4ff50;
-    }
-
-    .btn-danger {
-      background: transparent;
-      color: var(--danger);
-      border: 1px solid var(--danger);
-    }
-
-    .btn-success {
-      background: var(--accent2);
-      color: #000;
-    }
-
-    .btn-warn {
-      background: var(--warn);
-      color: #000;
-    }
-
-    .btn-ghost {
-      background: var(--surface2);
-      color: var(--text);
-    }
-
-    .btn-sm {
-      padding: 7px 12px;
-      font-size: 10px;
-    }
-
-    .btn-full {
-      width: 100%;
-    }
-
-    /* CLIENT CARDS */
-    .client-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
+    /* ── CLIENT CARD ── */
     .client-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--white);
+      border: 1px solid var(--gray-200);
       border-radius: var(--radius);
+      box-shadow: var(--shadow);
       overflow: hidden;
-      transition: border-color 0.2s;
     }
 
-    .client-card:hover {
-      border-color: #333;
+    .client-card+.client-card {
+      margin-top: 10px;
     }
 
-    .client-card-header {
-      padding: 16px 18px;
+    .client-row {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      padding: 14px 16px;
       cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
-    .client-avatar {
-      width: 40px;
-      height: 40px;
+    .client-row:active {
+      background: var(--gray-50);
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      background: var(--surface2);
+      background: var(--blue-lt);
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-head);
-      font-weight: 800;
-      font-size: 16px;
-      color: var(--accent);
       flex-shrink: 0;
     }
 
@@ -350,210 +239,385 @@
     }
 
     .client-name {
-      font-family: var(--font-head);
+      font-weight: 600;
       font-size: 15px;
-      font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .client-email {
-      font-size: 11px;
-      color: var(--muted);
+      font-size: 12px;
+      color: var(--gray-400);
       margin-top: 1px;
     }
 
-    .client-sessions {
-      text-align: right;
+    .session-pill {
+      background: var(--green-lt);
+      color: var(--green);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
       flex-shrink: 0;
     }
 
-    .sessions-count {
-      font-family: var(--font-head);
-      font-size: 22px;
-      font-weight: 800;
+    .session-pill.low {
+      background: var(--amber-lt);
+      color: var(--amber);
     }
 
-    .sessions-count.low {
-      color: var(--danger);
+    .session-pill.empty {
+      background: var(--red-lt);
+      color: var(--red);
     }
 
-    .sessions-count.ok {
-      color: var(--accent);
+    .progress-wrap {
+      padding: 0 16px 4px;
     }
 
-    .sessions-sub {
-      font-size: 9px;
-      color: var(--muted);
-    }
-
-    .progress-bar {
-      height: 3px;
-      background: var(--border);
-      border-radius: 2px;
+    .progress {
+      height: 4px;
+      background: var(--gray-100);
+      border-radius: 999px;
       overflow: hidden;
     }
 
-    .progress-fill {
+    .progress-bar {
       height: 100%;
-      border-radius: 2px;
-      background: var(--accent);
-      transition: width 0.4s ease;
+      border-radius: 999px;
+      background: var(--green);
+      transition: width .4s;
     }
 
-    .progress-fill.low {
-      background: var(--danger);
+    .progress-bar.low {
+      background: var(--amber);
     }
 
-    .client-card-body {
-      padding: 0 18px 18px;
+    .progress-bar.empty {
+      background: var(--red);
+    }
+
+    .client-detail {
       display: none;
+      padding: 4px 16px 16px;
+      border-top: 1px solid var(--gray-100);
     }
 
-    .client-card-body.open {
+    .client-detail.open {
       display: block;
     }
 
-    .client-actions {
+    .detail-info {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--gray-600);
+      padding: 12px 0 14px;
+    }
+
+    .detail-info strong {
+      color: var(--gray-900);
+    }
+
+    .btn-row {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 14px;
     }
 
-    .inline-edit {
-      display: flex;
-      gap: 8px;
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
       align-items: center;
-      margin-top: 10px;
-    }
-
-    .inline-edit .form-input {
+      gap: 5px;
+      padding: 9px 14px;
+      border: none;
+      border-radius: 8px;
       font-size: 13px;
-      padding: 9px 12px;
+      font-family: var(--font);
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity .15s, transform .1s;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
-    /* RESERVAS */
-    .reserva-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px 18px;
-      margin-bottom: 10px;
+    .btn:active {
+      transform: scale(.97);
+      opacity: .85;
     }
 
-    .reserva-header {
+    .btn:disabled {
+      opacity: .5;
+      pointer-events: none;
+    }
+
+    .btn-blue {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .btn-red {
+      background: transparent;
+      color: var(--red);
+      border: 1px solid var(--red);
+    }
+
+    .btn-gray {
+      background: var(--gray-100);
+      color: var(--gray-800);
+    }
+
+    .btn-full {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-sm {
+      padding: 7px 11px;
+      font-size: 12px;
+    }
+
+    /* ── BOOKING CARDS ── */
+    .booking-card {
+      padding: 14px 16px;
+    }
+
+    .booking-card+.booking-card {
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .booking-top {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 8px;
+      margin-bottom: 6px;
     }
 
-    .reserva-cliente {
-      font-family: var(--font-head);
+    .booking-name {
+      font-weight: 600;
       font-size: 15px;
-      font-weight: 700;
     }
 
-    .reserva-datetime {
+    .booking-dt {
       font-size: 13px;
-      color: var(--accent);
+      color: var(--blue);
       margin-top: 2px;
-      font-weight: 500;
     }
 
-    .reserva-mensaje {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 12px;
-      line-height: 1.5;
+    .booking-msg {
+      font-size: 13px;
+      color: var(--gray-600);
+      margin-bottom: 10px;
       font-style: italic;
     }
 
-    .reserva-actions {
+    .booking-actions {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
     }
 
-    .estado-badge {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 3px 8px;
-      border-radius: 20px;
-      font-weight: 500;
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
     }
 
-    .estado-pendiente {
-      background: rgba(245, 168, 66, 0.15);
-      color: var(--warn);
+    .badge-pending {
+      background: var(--amber-lt);
+      color: var(--amber);
     }
 
-    .estado-confirmada {
-      background: rgba(66, 245, 168, 0.15);
-      color: var(--accent2);
+    .badge-confirm {
+      background: var(--green-lt);
+      color: var(--green);
     }
 
-    .estado-rechazada {
-      background: rgba(245, 66, 66, 0.15);
-      color: var(--danger);
+    .badge-reject {
+      background: var(--red-lt);
+      color: var(--red);
     }
 
-    .estado-completada {
-      background: rgba(200, 245, 66, 0.1);
-      color: var(--accent);
+    .badge-done {
+      background: var(--gray-100);
+      color: var(--gray-600);
     }
 
-    /* SEARCH */
-    .search-box {
+    /* ── FILTER ROW ── */
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      font-size: 13px;
+      font-family: var(--font);
+      cursor: pointer;
+      color: var(--gray-600);
+      transition: all .15s;
+    }
+
+    .filter-btn.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* ── FORM ── */
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-700, #374151);
+      margin-bottom: 5px;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: var(--font);
+      color: var(--gray-900);
+      background: var(--white);
+      outline: none;
+      transition: border-color .15s;
+      -webkit-appearance: none;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      border-color: var(--blue);
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* ── SEARCH ── */
+    .search-wrap {
       position: relative;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
-    .search-box .form-input {
+    .search-wrap .form-input {
       padding-left: 36px;
     }
 
     .search-icon {
       position: absolute;
-      left: 12px;
+      left: 11px;
       top: 50%;
       transform: translateY(-50%);
-      color: var(--muted);
-      font-size: 14px;
+      color: var(--gray-400);
       pointer-events: none;
+      font-size: 16px;
     }
 
-    /* EMPTY */
-    .empty-state {
+    /* ── MODAL ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .45);
+      z-index: 200;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 16px 16px 0 0;
+      padding: 24px 20px 32px;
+      width: 100%;
+      max-width: 480px;
+      animation: slideUp .22s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+
+      to {
+        transform: none;
+        opacity: 1;
+      }
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    /* ── EMPTY ── */
+    .empty {
       text-align: center;
-      padding: 40px 20px;
-      color: var(--muted);
-      font-size: 12px;
+      padding: 32px 16px;
+      color: var(--gray-400);
+      font-size: 14px;
     }
 
     .empty-icon {
-      font-size: 32px;
+      font-size: 30px;
       margin-bottom: 8px;
     }
 
-    /* TOAST */
+    /* ── TOAST ── */
     .toast {
       position: fixed;
       bottom: 24px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 12px 20px;
+      transform: translateX(-50%) translateY(60px);
+      background: var(--gray-900);
+      color: #fff;
+      padding: 11px 20px;
       border-radius: 10px;
-      font-size: 13px;
+      font-size: 14px;
       z-index: 999;
-      transition: transform 0.3s ease;
+      transition: transform .25s ease;
+      pointer-events: none;
       white-space: nowrap;
       max-width: 90vw;
     }
@@ -562,34 +626,32 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    .toast.success {
-      border-color: var(--accent);
-      color: var(--accent);
+    .toast.ok {
+      background: var(--green);
     }
 
-    .toast.error {
-      border-color: var(--danger);
-      color: var(--danger);
+    .toast.err {
+      background: var(--red);
     }
 
-    /* LOADING */
-    .loading {
+    /* ── SPINNER ── */
+    .spinner-wrap {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 30px;
-      color: var(--muted);
-      font-size: 12px;
+      padding: 40px;
+      color: var(--gray-400);
+      font-size: 14px;
     }
 
     .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid var(--gray-200);
+      border-top-color: var(--blue);
       border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+      animation: spin .7s linear infinite;
     }
 
     @keyframes spin {
@@ -598,81 +660,77 @@
       }
     }
 
-    /* MODAL */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s;
-    }
-
-    .modal-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px 20px 0 0;
-      padding: 24px 20px 36px;
-      width: 100%;
-      max-width: 480px;
-      transform: translateY(40px);
-      transition: transform 0.3s ease;
-    }
-
-    .modal-overlay.open .modal {
-      transform: translateY(0);
-    }
-
-    .modal-title {
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 20px;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    /* Historial */
-    .historial-item {
+    /* ── HIST ── */
+    .hist-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 12px;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 13px;
     }
 
-    .historial-item:last-child {
+    .hist-row:last-child {
       border-bottom: none;
     }
 
-    .historial-dot {
-      width: 8px;
-      height: 8px;
+    .hist-dot {
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
       flex-shrink: 0;
     }
 
-    @media (min-width: 480px) {
-      .stats-row {
-        grid-template-columns: repeat(3, 1fr);
-      }
+    .hist-main {
+      flex: 1;
+    }
 
-      .modal-overlay {
+    .hist-date {
+      font-weight: 600;
+    }
+
+    .hist-sub {
+      color: var(--gray-400);
+      font-size: 12px;
+    }
+
+    /* ── SETUP SCREEN ── */
+    .setup-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      padding: 32px 20px;
+    }
+
+    .setup-screen.show {
+      display: flex;
+    }
+
+    .setup-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .setup-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .setup-desc {
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.6;
+      max-width: 320px;
+    }
+
+    @media (min-width: 520px) {
+      .overlay {
         align-items: center;
+        padding: 20px;
       }
 
       .modal {
@@ -684,122 +742,134 @@
 
 <body>
 
-  <div class="header">
-    <div class="header-logo">PT<span>.</span>Admin</div>
-    <div class="header-badge">Entrenador</div>
-  </div>
-
-  <div class="nav-tabs">
-    <button class="tab-btn active" onclick="switchTab('dashboard')">Dashboard</button>
-    <button class="tab-btn" onclick="switchTab('clientes')">Clientes</button>
-    <button class="tab-btn" onclick="switchTab('reservas')" id="tab-reservas">Reservas</button>
-    <button class="tab-btn" onclick="switchTab('nuevo')">+ Nuevo</button>
-  </div>
-
-  <div class="main">
-
-    <!-- DASHBOARD -->
-    <div class="panel active" id="panel-dashboard">
-      <div style="margin-bottom:24px;margin-top:8px;">
-        <div style="font-family:var(--font-head);font-size:24px;font-weight:800;line-height:1.1;">
-          Panel de control
-        </div>
-        <div style="color:var(--muted);font-size:12px;margin-top:4px;" id="dash-fecha"></div>
-      </div>
-      <div class="stats-row" id="stats-row">
-        <div class="stat-card">
-          <div class="stat-num" id="s-clientes">—</div>
-          <div class="stat-label">Clientes</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" id="s-sesiones">—</div>
-          <div class="stat-label">Sesiones activas</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num" id="s-pendientes" style="color:var(--warn)">—</div>
-          <div class="stat-label">Pendientes</div>
-        </div>
-      </div>
-
-      <div class="section-title">Reservas pendientes</div>
-      <div id="dash-reservas-pendientes"></div>
-
-      <div class="section-title" style="margin-top:20px;">Bonos a punto de agotar</div>
-      <div id="dash-bonos-bajos"></div>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Panel Entrenador</div>
     </div>
+    <div id="topbar-date" style="font-size:12px;color:var(--gray-400)"></div>
+  </div>
 
-    <!-- CLIENTES -->
-    <div class="panel" id="panel-clientes">
-      <div class="search-box" style="margin-top:12px;">
-        <span class="search-icon">⌕</span>
-        <input class="form-input" type="search" placeholder="Buscar cliente..." id="search-input"
-          oninput="filterClientes()">
+  <!-- NAV -->
+  <div class="nav">
+    <button class="nav-btn active" onclick="goTo('dashboard')">Inicio</button>
+    <button class="nav-btn" onclick="goTo('clientes')">Clientes</button>
+    <button class="nav-btn" onclick="goTo('reservas')" id="nav-reservas">Reservas</button>
+    <button class="nav-btn" onclick="goTo('nuevo')">+ Nuevo cliente</button>
+  </div>
+
+  <!-- SETUP SCREEN -->
+  <div class="wrap setup-screen" id="setup-screen">
+    <div class="setup-icon">⚙️</div>
+    <div class="setup-title">Configuración pendiente</div>
+    <div class="setup-desc">
+      Abre este archivo, busca la línea <strong>API_URL</strong> al inicio del script
+      y pega tu URL de Google Apps Script.<br><br>
+      Sigue las instrucciones en <strong>SETUP_GOOGLE_APPS_SCRIPT.md</strong>.
+    </div>
+  </div>
+
+  <!-- PÁGINA: DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="wrap">
+      <div class="stats" id="stats-row">
+        <div class="stat">
+          <div class="stat-n" id="s-cl">—</div>
+          <div class="stat-l">Clientes</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n" id="s-ses">—</div>
+          <div class="stat-l">Sesiones disponibles</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n warn" id="s-pen">—</div>
+          <div class="stat-l">Pendientes</div>
+        </div>
+      </div>
+
+      <div class="section-label">Reservas pendientes de respuesta</div>
+      <div id="dash-pending"></div>
+
+      <div class="section-label" style="margin-top:20px">Bonos a punto de agotarse</div>
+      <div id="dash-low-bonos"></div>
+    </div>
+  </div>
+
+  <!-- PÁGINA: CLIENTES -->
+  <div class="page" id="page-clientes">
+    <div class="wrap">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="form-input" type="search" placeholder="Buscar por nombre o email…" id="search-q"
+          oninput="renderClientes()">
       </div>
       <div id="clientes-list"></div>
     </div>
+  </div>
 
-    <!-- RESERVAS -->
-    <div class="panel" id="panel-reservas">
-      <div style="margin-top:12px;margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="btn btn-sm btn-ghost" id="filter-todas" onclick="filterReservas('todas')">Todas</button>
-        <button class="btn btn-sm" style="background:rgba(245,168,66,0.15);color:var(--warn);"
-          onclick="filterReservas('pendiente')">Pendientes</button>
-        <button class="btn btn-sm" style="background:rgba(66,245,168,0.15);color:var(--accent2);"
-          onclick="filterReservas('confirmada')">Confirmadas</button>
-        <button class="btn btn-sm btn-ghost" onclick="filterReservas('completada')">Completadas</button>
+  <!-- PÁGINA: RESERVAS -->
+  <div class="page" id="page-reservas">
+    <div class="wrap">
+      <div class="filter-row">
+        <button class="filter-btn active" data-f="todas" onclick="setFilter(this,'todas')">Todas</button>
+        <button class="filter-btn" data-f="pendiente" onclick="setFilter(this,'pendiente')">Pendientes</button>
+        <button class="filter-btn" data-f="confirmada" onclick="setFilter(this,'confirmada')">Confirmadas</button>
+        <button class="filter-btn" data-f="completada" onclick="setFilter(this,'completada')">Completadas</button>
+        <button class="filter-btn" data-f="rechazada" onclick="setFilter(this,'rechazada')">Rechazadas</button>
       </div>
-      <div id="reservas-list"></div>
+      <div class="card" id="reservas-list"></div>
     </div>
+  </div>
 
-    <!-- NUEVO CLIENTE -->
-    <div class="panel" id="panel-nuevo">
-      <div style="font-family:var(--font-head);font-size:20px;font-weight:800;margin:12px 0 20px;">Nuevo cliente</div>
-      <div class="form-card">
-        <div class="form-row">
+  <!-- PÁGINA: NUEVO CLIENTE -->
+  <div class="page" id="page-nuevo">
+    <div class="wrap">
+      <div class="section-label">Datos del cliente</div>
+      <div class="card" style="padding:20px">
+        <div class="form-group">
           <label class="form-label">Nombre completo</label>
-          <input class="form-input" type="text" id="new-nombre" placeholder="Ej: María García">
+          <input class="form-input" type="text" id="n-nombre" placeholder="Ej: María García" autocomplete="off">
         </div>
-        <div class="form-row">
+        <div class="form-group">
           <label class="form-label">Email</label>
-          <input class="form-input" type="email" id="new-email" placeholder="maria@ejemplo.com">
+          <input class="form-input" type="email" id="n-email" placeholder="maria@ejemplo.com" autocomplete="off">
         </div>
-        <div class="form-row">
-          <label class="form-label">Sesiones del bono</label>
-          <input class="form-input" type="number" id="new-sesiones" value="10" min="1" max="100">
+        <div class="form-group">
+          <label class="form-label">Número de sesiones del bono</label>
+          <input class="form-input" type="number" id="n-sesiones" value="10" min="1" max="200">
         </div>
-        <button class="btn btn-primary btn-full" onclick="addCliente()">Crear cliente</button>
-      </div>
-    </div>
-
-  </div><!-- /main -->
-
-  <!-- MODAL: Gestionar bono -->
-  <div class="modal-overlay" id="modal-bono" onclick="closeModal('modal-bono')">
-    <div class="modal" onclick="event.stopPropagation()">
-      <div class="modal-title" id="modal-bono-title">Gestionar bono</div>
-      <div class="form-row">
-        <label class="form-label">Sesiones totales del bono</label>
-        <input class="form-input" type="number" id="modal-bono-total" min="1" max="200">
-      </div>
-      <div class="form-row">
-        <label class="form-label">Sesiones ya usadas</label>
-        <input class="form-input" type="number" id="modal-bono-usadas" min="0">
-      </div>
-      <input type="hidden" id="modal-bono-id">
-      <div class="modal-actions">
-        <button class="btn btn-primary" style="flex:1" onclick="saveBono()">Guardar</button>
-        <button class="btn btn-ghost" onclick="closeModal('modal-bono')">Cancelar</button>
+        <button class="btn btn-blue btn-full" onclick="crearCliente()">Crear cliente</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: Historial cliente -->
-  <div class="modal-overlay" id="modal-historial" onclick="closeModal('modal-historial')">
+  <!-- MODAL: Editar bono -->
+  <div class="overlay" id="modal-bono" onclick="closeModal('modal-bono')">
     <div class="modal" onclick="event.stopPropagation()">
-      <div class="modal-title" id="modal-hist-title">Historial</div>
-      <div id="modal-hist-body"></div>
+      <div class="modal-title" id="mb-title">Editar bono</div>
+      <input type="hidden" id="mb-id">
+      <div class="form-group">
+        <label class="form-label">Total de sesiones en el bono</label>
+        <input class="form-input" type="number" id="mb-total" min="1" max="500">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sesiones ya utilizadas</label>
+        <input class="form-input" type="number" id="mb-usadas" min="0">
+      </div>
       <div class="modal-actions">
-        <button class="btn btn-ghost btn-full" onclick="closeModal('modal-historial')">Cerrar</button>
+        <button class="btn btn-blue" style="flex:1" onclick="guardarBono()">Guardar cambios</button>
+        <button class="btn btn-gray" onclick="closeModal('modal-bono')">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Historial -->
+  <div class="overlay" id="modal-hist" onclick="closeModal('modal-hist')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-title" id="mh-title">Historial</div>
+      <div id="mh-body"></div>
+      <div class="modal-actions">
+        <button class="btn btn-gray btn-full" onclick="closeModal('modal-hist')">Cerrar</button>
       </div>
     </div>
   </div>
@@ -808,327 +878,349 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    // ============================================================
-    // CONFIGURACIÓN — reemplaza con tu URL de Google Apps Script
-    // ============================================================
+    // ══════════════════════════════════════════════════
+    //  ▶ PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
     const API_URL = 'PEGA_AQUÍ_TU_URL_DE_APPS_SCRIPT';
-    // ============================================================
+    // ══════════════════════════════════════════════════
 
+    // ── Estado global ──
     let clientes = [];
     let reservas = [];
-    let currentFilter = 'todas';
+    let filtroAct = 'todas';
 
-    // ---- API ----
-    async function api(action, data = {}) {
-      const body = JSON.stringify({ action, ...data });
-      const res = await fetch(API_URL, {
+    // ── API ──
+    async function call(action, data = {}) {
+      const r = await fetch(API_URL, {
         method: 'POST',
-        body,
-        headers: { 'Content-Type': 'text/plain' }
+        body: JSON.stringify({ action, ...data }),
+        headers: { 'Content-Type': 'text/plain' }   // text/plain evita preflight CORS
       });
-      return res.json();
+      if (!r.ok) throw new Error('Error de red: ' + r.status);
+      return r.json();
     }
 
-    // ---- INIT ----
+    // ── INICIO ──
     async function init() {
-      document.getElementById('dash-fecha').textContent = new Date().toLocaleDateString('es-ES', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-      });
-      await loadAll();
+      document.getElementById('topbar-date').textContent =
+        new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+      await refresh();
     }
 
-    async function loadAll() {
-      [clientes, reservas] = await Promise.all([
-        api('getClientes'),
-        api('getReservas')
-      ]);
+    async function refresh() {
+      try {
+        [clientes, reservas] = await Promise.all([call('getClientes'), call('getReservas')]);
+        clientes = Array.isArray(clientes) ? clientes : [];
+        reservas = Array.isArray(reservas) ? reservas : [];
+      } catch (e) {
+        toast('Error al cargar datos. Revisa la URL del script.', 'err');
+        return;
+      }
       renderDashboard();
       renderClientes();
       renderReservas();
-      updatePendingBadge();
+      updateBadge();
     }
 
-    // ---- DASHBOARD ----
+    // ── DASHBOARD ──
     function renderDashboard() {
-      const activos = clientes.filter(c => c.activo);
-      const sesionesActivas = activos.reduce((s, c) => s + (Number(c.sesiones_totales) - Number(c.sesiones_usadas)), 0);
-      const pendientes = reservas.filter(r => r.estado === 'pendiente');
+      const activos = clientes.filter(c => c.activo == true || c.activo === 'TRUE' || c.activo === true);
+      const totalSes = activos.reduce((s, c) => s + Math.max(0, num(c.sesiones_totales) - num(c.sesiones_usadas)), 0);
+      const pending = reservas.filter(r => r.estado === 'pendiente');
 
-      document.getElementById('s-clientes').textContent = activos.length;
-      document.getElementById('s-sesiones').textContent = sesionesActivas;
-      document.getElementById('s-pendientes').textContent = pendientes.length;
+      set('s-cl', activos.length);
+      set('s-ses', totalSes);
+      set('s-pen', pending.length);
 
-      // Pendientes en dashboard
-      const el = document.getElementById('dash-reservas-pendientes');
-      if (pendientes.length === 0) {
-        el.innerHTML = '<div class="empty-state"><div class="empty-icon">✓</div>Sin reservas pendientes</div>';
+      // Reservas pendientes
+      const dp = document.getElementById('dash-pending');
+      if (!pending.length) {
+        dp.innerHTML = '<div class="card"><div class="empty"><div class="empty-icon">✅</div>Sin reservas pendientes</div></div>';
       } else {
-        el.innerHTML = pendientes.slice(0, 3).map(r => reservaCardHTML(r, true)).join('');
+        dp.innerHTML = '<div class="card">' + pending.slice(0, 5).map(r => bookingHTML(r, true)).join('') + '</div>';
       }
 
-      // Bonos bajos
-      const bajos = activos.filter(c => {
-        const rest = Number(c.sesiones_totales) - Number(c.sesiones_usadas);
-        return rest <= 2 && rest >= 0;
+      // Bonos bajos (≤ 2 sesiones)
+      const low = activos.filter(c => {
+        const rest = num(c.sesiones_totales) - num(c.sesiones_usadas);
+        return rest <= 2 && num(c.sesiones_totales) > 0;
       });
-      const elB = document.getElementById('dash-bonos-bajos');
-      if (bajos.length === 0) {
-        elB.innerHTML = '<div class="empty-state"><div class="empty-icon">🎯</div>Todos los bonos están bien</div>';
+      const dl = document.getElementById('dash-low-bonos');
+      if (!low.length) {
+        dl.innerHTML = '<div class="card"><div class="empty"><div class="empty-icon">🎯</div>Todos los bonos tienen sesiones disponibles</div></div>';
       } else {
-        elB.innerHTML = bajos.map(c => {
-          const rest = Number(c.sesiones_totales) - Number(c.sesiones_usadas);
-          return `<div class="reserva-card" style="display:flex;align-items:center;gap:12px;">
+        dl.innerHTML = '<div class="card">' + low.map(c => {
+          const rest = num(c.sesiones_totales) - num(c.sesiones_usadas);
+          return `<div class="booking-card" style="display:flex;align-items:center;gap:12px">
         <div style="flex:1">
-          <div class="reserva-cliente">${c.nombre}</div>
-          <div style="font-size:11px;color:var(--muted)">${c.email}</div>
+          <div class="booking-name">${esc(c.nombre)}</div>
+          <div style="font-size:13px;color:var(--gray-400)">${esc(c.email)}</div>
         </div>
-        <div style="text-align:right">
-          <div style="font-family:var(--font-head);font-size:22px;font-weight:800;color:var(--danger)">${rest}</div>
-          <div style="font-size:9px;color:var(--muted)">sesiones</div>
-        </div>
+        <span class="badge ${rest === 0 ? 'badge-reject' : 'badge-pending'}">${rest} sesión${rest === 1 ? '' : 'es'}</span>
       </div>`;
-        }).join('');
+        }).join('') + '</div>';
       }
     }
 
-    // ---- CLIENTES ----
-    function renderClientes(filter = '') {
+    // ── CLIENTES ──
+    function renderClientes() {
+      const q = (document.getElementById('search-q')?.value || '').toLowerCase();
+      const activos = clientes.filter(c => c.activo == true || c.activo === 'TRUE' || c.activo === true);
+      const lista = q
+        ? activos.filter(c => c.nombre.toLowerCase().includes(q) || c.email.toLowerCase().includes(q))
+        : activos;
+
       const el = document.getElementById('clientes-list');
-      const lista = clientes.filter(c => c.activo && (
-        !filter ||
-        c.nombre.toLowerCase().includes(filter) ||
-        c.email.toLowerCase().includes(filter)
-      ));
-      if (lista.length === 0) {
-        el.innerHTML = '<div class="empty-state"><div class="empty-icon">👤</div>Sin clientes</div>';
+      if (!lista.length) {
+        el.innerHTML = '<div class="card"><div class="empty"><div class="empty-icon">👤</div>Sin clientes</div></div>';
         return;
       }
-      el.innerHTML = '<div class="client-list">' + lista.map(clientCardHTML).join('') + '</div>';
+      el.innerHTML = lista.map(clientHTML).join('');
     }
 
-    function clientCardHTML(c) {
-      const total = Number(c.sesiones_totales);
-      const usadas = Number(c.sesiones_usadas);
-      const rest = total - usadas;
-      const pct = total > 0 ? Math.max(0, (rest / total) * 100) : 0;
-      const low = rest <= 2;
-      const initials = c.nombre.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+    function clientHTML(c) {
+      const total = num(c.sesiones_totales);
+      const usadas = num(c.sesiones_usadas);
+      const rest = Math.max(0, total - usadas);
+      const pct = total > 0 ? ((rest / total) * 100).toFixed(1) : 0;
+      const cls = rest === 0 ? 'empty' : rest <= 2 ? 'low' : '';
+      const ini = initials(c.nombre);
+      const id = esc(c.id);
 
-      return `<div class="client-card" id="card-${c.id}">
-    <div class="client-card-header" onclick="toggleCard('${c.id}')">
-      <div class="client-avatar">${initials}</div>
+      return `
+  <div class="client-card" id="cc-${id}">
+    <div class="client-row" onclick="toggleDetail('${id}')">
+      <div class="avatar">${ini}</div>
       <div class="client-info">
-        <div class="client-name">${c.nombre}</div>
-        <div class="client-email">${c.email}</div>
-        <div class="progress-bar" style="margin-top:6px">
-          <div class="progress-fill ${low ? 'low' : ''}" style="width:${pct}%"></div>
-        </div>
+        <div class="client-name">${esc(c.nombre)}</div>
+        <div class="client-email">${esc(c.email)}</div>
       </div>
-      <div class="client-sessions">
-        <div class="sessions-count ${low ? 'low' : 'ok'}">${rest}</div>
-        <div class="sessions-sub">/ ${total}</div>
-      </div>
+      <span class="session-pill ${cls}">${rest} / ${total}</span>
     </div>
-    <div class="client-card-body" id="body-${c.id}">
-      <div style="font-size:11px;color:var(--muted);margin-bottom:12px">
-        Sesiones usadas: <strong style="color:var(--text)">${usadas}</strong> &nbsp;·&nbsp;
-        Restantes: <strong style="color:${low ? 'var(--danger)' : 'var(--accent)'}">${rest}</strong>
+    <div class="progress-wrap">
+      <div class="progress"><div class="progress-bar ${cls}" style="width:${pct}%"></div></div>
+    </div>
+    <div class="client-detail" id="cd-${id}">
+      <div class="detail-info">
+        <span>Usadas: <strong>${usadas}</strong></span>
+        <span>Restantes: <strong>${rest}</strong></span>
+        <span>Bono: <strong>${total}</strong></span>
       </div>
-      <div class="client-actions">
-        <button class="btn btn-sm btn-primary" onclick="openModalBono('${c.id}','${c.nombre}',${total},${usadas})">✎ Editar bono</button>
-        <button class="btn btn-sm btn-success" onclick="marcarSesion('${c.id}',${usadas},${total})">+ Usar sesión</button>
-        <button class="btn btn-sm btn-ghost" onclick="openHistorial('${c.id}')">Historial</button>
-        <button class="btn btn-sm btn-danger" onclick="archivarCliente('${c.id}','${c.nombre}')">Archivar</button>
+      <div class="btn-row">
+        <button class="btn btn-blue btn-sm" onclick="openBono('${id}','${esc(c.nombre)}',${total},${usadas})">Editar bono</button>
+        <button class="btn btn-green btn-sm" onclick="usarSesion('${id}',${usadas},${total})">+ Usar sesión</button>
+        <button class="btn btn-gray btn-sm" onclick="verHistorial('${id}')">Historial</button>
+        <button class="btn btn-red btn-sm" onclick="archivar('${id}','${esc(c.nombre)}')">Archivar</button>
       </div>
     </div>
   </div>`;
     }
 
-    function toggleCard(id) {
-      const body = document.getElementById('body-' + id);
-      body.classList.toggle('open');
+    function toggleDetail(id) {
+      document.getElementById('cd-' + id)?.classList.toggle('open');
     }
 
-    function filterClientes() {
-      const q = document.getElementById('search-input').value.toLowerCase();
-      renderClientes(q);
-    }
-
-    // ---- RESERVAS ----
-    function reservaCardHTML(r, compact = false) {
-      const fecha = r.fecha_propuesta ? new Date(r.fecha_propuesta).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' }) : '—';
-      const hora = r.hora_propuesta || '—';
-      const acciones = r.estado === 'pendiente' ? `
-    <button class="btn btn-sm btn-success" onclick="responderReserva('${r.id}','confirmada','${r.cliente_id}')">✓ Confirmar</button>
-    <button class="btn btn-sm btn-danger" onclick="responderReserva('${r.id}','rechazada','${r.cliente_id}')">✗ Rechazar</button>
-  ` : r.estado === 'confirmada' ? `
-    <button class="btn btn-sm btn-primary" onclick="completarReserva('${r.id}','${r.cliente_id}')">Marcar completada</button>
-  ` : '';
-
-      return `<div class="reserva-card">
-    <div class="reserva-header">
-      <div>
-        <div class="reserva-cliente">${r.cliente_nombre}</div>
-        <div class="reserva-datetime">📅 ${fecha} &nbsp; ⏰ ${hora}</div>
-      </div>
-      <span class="estado-badge estado-${r.estado}">${r.estado}</span>
-    </div>
-    ${r.mensaje ? `<div class="reserva-mensaje">"${r.mensaje}"</div>` : ''}
-    ${!compact ? `<div class="reserva-actions">${acciones}</div>` : acciones ? `<div class="reserva-actions">${acciones}</div>` : ''}
-  </div>`;
-    }
-
+    // ── RESERVAS ──
     function renderReservas() {
       const el = document.getElementById('reservas-list');
       let lista = [...reservas].sort((a, b) => new Date(b.fecha_creacion) - new Date(a.fecha_creacion));
-      if (currentFilter !== 'todas') lista = lista.filter(r => r.estado === currentFilter);
-      if (lista.length === 0) {
-        el.innerHTML = '<div class="empty-state"><div class="empty-icon">📆</div>Sin reservas</div>';
+      if (filtroAct !== 'todas') lista = lista.filter(r => r.estado === filtroAct);
+
+      if (!lista.length) {
+        el.innerHTML = '<div class="empty"><div class="empty-icon">📅</div>Sin reservas en esta categoría</div>';
         return;
       }
-      el.innerHTML = lista.map(r => reservaCardHTML(r)).join('');
+      el.innerHTML = lista.map(r => bookingHTML(r, false)).join('');
     }
 
-    function filterReservas(f) {
-      currentFilter = f;
+    function bookingHTML(r, compact) {
+      const fecha = r.fecha_propuesta
+        ? new Date(r.fecha_propuesta + 'T00:00:00').toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' })
+        : '—';
+      const hora = r.hora_propuesta || '—';
+      const badgeCls = { pendiente: 'badge-pending', confirmada: 'badge-confirm', rechazada: 'badge-reject', completada: 'badge-done' }[r.estado] || 'badge-done';
+
+      let acciones = '';
+      if (r.estado === 'pendiente') {
+        acciones = `
+      <button class="btn btn-green btn-sm" onclick="responder('${r.id}','confirmada')">✓ Confirmar</button>
+      <button class="btn btn-red btn-sm" onclick="responder('${r.id}','rechazada')">✗ Rechazar</button>`;
+      } else if (r.estado === 'confirmada') {
+        acciones = `<button class="btn btn-blue btn-sm" onclick="completar('${r.id}','${r.cliente_id}')">Marcar completada</button>`;
+      }
+
+      return `<div class="booking-card">
+    <div class="booking-top">
+      <div>
+        <div class="booking-name">${esc(r.cliente_nombre)}</div>
+        <div class="booking-dt">📅 ${fecha} &nbsp; ⏰ ${hora}</div>
+      </div>
+      <span class="badge ${badgeCls}">${r.estado}</span>
+    </div>
+    ${r.mensaje ? `<div class="booking-msg">"${esc(r.mensaje)}"</div>` : ''}
+    ${acciones ? `<div class="booking-actions">${acciones}</div>` : ''}
+  </div>`;
+    }
+
+    function setFilter(btn, f) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filtroAct = f;
       renderReservas();
     }
 
-    function updatePendingBadge() {
+    function updateBadge() {
       const n = reservas.filter(r => r.estado === 'pendiente').length;
-      const tab = document.getElementById('tab-reservas');
-      tab.innerHTML = 'Reservas' + (n > 0 ? `<span class="badge-num">${n}</span>` : '');
+      document.getElementById('nav-reservas').innerHTML =
+        'Reservas' + (n > 0 ? `<span class="nav-badge">${n}</span>` : '');
     }
 
-    // ---- ACCIONES ----
-    async function addCliente() {
-      const nombre = document.getElementById('new-nombre').value.trim();
-      const email = document.getElementById('new-email').value.trim();
-      const sesiones = parseInt(document.getElementById('new-sesiones').value);
-      if (!nombre || !email) return toast('Completa nombre y email', 'error');
-      toast('Creando cliente...');
-      await api('addCliente', { nombre, email, sesiones_totales: sesiones });
-      document.getElementById('new-nombre').value = '';
-      document.getElementById('new-email').value = '';
-      document.getElementById('new-sesiones').value = '10';
-      await loadAll();
-      toast('Cliente creado ✓', 'success');
-      switchTab('clientes');
+    // ── ACCIONES ──
+    async function crearCliente() {
+      const nombre = document.getElementById('n-nombre').value.trim();
+      const email = document.getElementById('n-email').value.trim();
+      const sesiones = parseInt(document.getElementById('n-sesiones').value) || 10;
+      if (!nombre || !email) return toast('Rellena nombre y email', 'err');
+
+      const btn = document.querySelector('#page-nuevo .btn-blue');
+      btn.disabled = true; btn.textContent = 'Creando…';
+      try {
+        await call('addCliente', { nombre, email, sesiones_totales: sesiones });
+        document.getElementById('n-nombre').value = '';
+        document.getElementById('n-email').value = '';
+        document.getElementById('n-sesiones').value = '10';
+        toast('Cliente creado ✓', 'ok');
+        goTo('clientes');
+        await refresh();
+      } catch (e) { toast('Error al crear cliente', 'err'); }
+      finally { btn.disabled = false; btn.textContent = 'Crear cliente'; }
     }
 
-    async function marcarSesion(id, usadas, total) {
-      if (usadas >= total) return toast('Sin sesiones restantes', 'error');
-      await api('updateCliente', { id, sesiones_usadas: usadas + 1 });
-      await loadAll();
-      toast('Sesión registrada ✓', 'success');
+    async function usarSesion(id, usadas, total) {
+      if (usadas >= total) return toast('No quedan sesiones en el bono', 'err');
+      try {
+        await call('updateCliente', { id, sesiones_usadas: usadas + 1 });
+        await refresh();
+        toast('Sesión registrada ✓', 'ok');
+      } catch (e) { toast('Error al registrar sesión', 'err'); }
     }
 
-    async function responderReserva(id, estado, cliente_id) {
-      await api('updateReserva', { id, estado });
-      await loadAll();
-      toast(estado === 'confirmada' ? 'Reserva confirmada ✓' : 'Reserva rechazada', estado === 'confirmada' ? 'success' : '');
+    async function responder(id, estado) {
+      try {
+        await call('updateReserva', { id, estado });
+        await refresh();
+        toast(estado === 'confirmada' ? 'Reserva confirmada ✓' : 'Reserva rechazada', estado === 'confirmada' ? 'ok' : '');
+      } catch (e) { toast('Error al actualizar reserva', 'err'); }
     }
 
-    async function completarReserva(reserva_id, cliente_id) {
+    async function completar(reserva_id, cliente_id) {
       const c = clientes.find(x => x.id === cliente_id);
-      if (!c) return;
-      const nuevas = Number(c.sesiones_usadas) + 1;
-      if (nuevas > Number(c.sesiones_totales)) return toast('Sin sesiones restantes', 'error');
-      await api('usarSesion', { cliente_id, sesiones_usadas: nuevas, reserva_id });
-      await loadAll();
-      toast('Sesión completada y registrada ✓', 'success');
+      if (!c) return toast('Cliente no encontrado', 'err');
+      const usadas = num(c.sesiones_usadas);
+      const total = num(c.sesiones_totales);
+      if (usadas >= total) return toast('El cliente ya no tiene sesiones disponibles', 'err');
+      try {
+        await call('usarSesion', { cliente_id, sesiones_usadas: usadas + 1, reserva_id });
+        await refresh();
+        toast('Sesión completada y descontada ✓', 'ok');
+      } catch (e) { toast('Error al completar sesión', 'err'); }
     }
 
-    async function archivarCliente(id, nombre) {
-      if (!confirm(`¿Archivar a ${nombre}? Dejará de aparecer en la lista.`)) return;
-      await api('updateCliente', { id, activo: false });
-      await loadAll();
-      toast('Cliente archivado', '');
+    async function archivar(id, nombre) {
+      if (!confirm(`¿Archivar a ${nombre}?\nDejarás de verle en la lista de clientes activos.`)) return;
+      try {
+        await call('updateCliente', { id, activo: false });
+        await refresh();
+        toast('Cliente archivado');
+      } catch (e) { toast('Error al archivar', 'err'); }
     }
 
-    // ---- MODAL BONO ----
-    function openModalBono(id, nombre, total, usadas) {
-      document.getElementById('modal-bono-title').textContent = nombre;
-      document.getElementById('modal-bono-id').value = id;
-      document.getElementById('modal-bono-total').value = total;
-      document.getElementById('modal-bono-usadas').value = usadas;
+    // ── MODAL BONO ──
+    function openBono(id, nombre, total, usadas) {
+      document.getElementById('mb-title').textContent = nombre;
+      document.getElementById('mb-id').value = id;
+      document.getElementById('mb-total').value = total;
+      document.getElementById('mb-usadas').value = usadas;
       document.getElementById('modal-bono').classList.add('open');
     }
 
-    async function saveBono() {
-      const id = document.getElementById('modal-bono-id').value;
-      const total = parseInt(document.getElementById('modal-bono-total').value);
-      const usadas = parseInt(document.getElementById('modal-bono-usadas').value);
-      await api('updateCliente', { id, sesiones_totales: total, sesiones_usadas: usadas });
-      closeModal('modal-bono');
-      await loadAll();
-      toast('Bono actualizado ✓', 'success');
+    async function guardarBono() {
+      const id = document.getElementById('mb-id').value;
+      const total = parseInt(document.getElementById('mb-total').value);
+      const usadas = parseInt(document.getElementById('mb-usadas').value);
+      if (isNaN(total) || isNaN(usadas)) return toast('Valores inválidos', 'err');
+      try {
+        await call('updateCliente', { id, sesiones_totales: total, sesiones_usadas: usadas });
+        closeModal('modal-bono');
+        await refresh();
+        toast('Bono actualizado ✓', 'ok');
+      } catch (e) { toast('Error al actualizar bono', 'err'); }
     }
 
-    // ---- HISTORIAL ----
-    async function openHistorial(cliente_id) {
+    // ── HISTORIAL ──
+    function verHistorial(cliente_id) {
       const c = clientes.find(x => x.id === cliente_id);
-      const reservasCliente = reservas.filter(r => r.cliente_id === cliente_id)
+      const his = reservas
+        .filter(r => r.cliente_id === cliente_id)
         .sort((a, b) => new Date(b.fecha_creacion) - new Date(a.fecha_creacion));
 
-      document.getElementById('modal-hist-title').textContent = 'Historial — ' + (c ? c.nombre : '');
+      document.getElementById('mh-title').textContent = 'Historial — ' + (c ? c.nombre : '');
+      const colors = { pendiente: '#d97706', confirmada: '#16a34a', rechazada: '#dc2626', completada: '#9ca3af' };
 
-      if (reservasCliente.length === 0) {
-        document.getElementById('modal-hist-body').innerHTML = '<div class="empty-state">Sin reservas registradas</div>';
-      } else {
-        document.getElementById('modal-hist-body').innerHTML = reservasCliente.map(r => {
-          const colors = { pendiente: 'var(--warn)', confirmada: 'var(--accent2)', rechazada: 'var(--danger)', completada: 'var(--accent)' };
-          const fecha = new Date(r.fecha_creacion).toLocaleDateString('es-ES');
-          return `<div class="historial-item">
-        <div class="historial-dot" style="background:${colors[r.estado]}"></div>
-        <div style="flex:1">
-          <div style="font-size:12px">${r.fecha_propuesta || '—'} ${r.hora_propuesta || ''}</div>
-          <div style="font-size:10px;color:var(--muted)">Propuesta: ${fecha}</div>
-        </div>
-        <span class="estado-badge estado-${r.estado}">${r.estado}</span>
-      </div>`;
+      document.getElementById('mh-body').innerHTML = his.length === 0
+        ? '<div class="empty" style="padding:20px 0">Sin reservas registradas</div>'
+        : his.map(r => {
+          const fecha = r.fecha_propuesta
+            ? new Date(r.fecha_propuesta + 'T00:00:00').toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })
+            : '—';
+          const creada = r.fecha_creacion ? new Date(r.fecha_creacion).toLocaleDateString('es-ES') : '';
+          return `<div class="hist-row">
+          <div class="hist-dot" style="background:${colors[r.estado] || '#ccc'}"></div>
+          <div class="hist-main">
+            <div class="hist-date">${fecha}${r.hora_propuesta ? ' · ' + r.hora_propuesta : ''}</div>
+            ${r.mensaje ? `<div class="hist-sub">"${esc(r.mensaje)}"</div>` : ''}
+            <div class="hist-sub">Propuesta el ${creada}</div>
+          </div>
+          <span class="badge ${({ pendiente: 'badge-pending', confirmada: 'badge-confirm', rechazada: 'badge-reject', completada: 'badge-done' })[r.estado] || 'badge-done'}">${r.estado}</span>
+        </div>`;
         }).join('');
-      }
 
-      document.getElementById('modal-historial').classList.add('open');
+      document.getElementById('modal-hist').classList.add('open');
     }
 
-    // ---- UTILS ----
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('open');
+    // ── NAVEGACIÓN ──
+    function goTo(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('page-' + page)?.classList.add('active');
+      const pages = ['dashboard', 'clientes', 'reservas', 'nuevo'];
+      const navBtns = document.querySelectorAll('.nav-btn');
+      const idx = pages.indexOf(page);
+      if (idx >= 0) navBtns[idx].classList.add('active');
     }
 
-    function switchTab(tab) {
-      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById('panel-' + tab).classList.add('active');
-      const btns = document.querySelectorAll('.tab-btn');
-      const tabs = ['dashboard', 'clientes', 'reservas', 'nuevo'];
-      const idx = tabs.indexOf(tab);
-      if (idx >= 0) btns[idx].classList.add('active');
+    // ── UTILS ──
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    function set(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+    function num(v) { return parseInt(v) || 0; }
+    function esc(s) { return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function initials(name) {
+      return String(name || '?').trim().split(/\s+/).map(w => w[0]?.toUpperCase() || '').join('').substring(0, 2) || '?';
     }
 
-    let toastTimer;
+    let _toast;
     function toast(msg, type = '') {
       const el = document.getElementById('toast');
       el.textContent = msg;
       el.className = 'toast show' + (type ? ' ' + type : '');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+      clearTimeout(_toast);
+      _toast = setTimeout(() => el.classList.remove('show'), 2800);
     }
 
-    // ---- START ----
-    if (API_URL === 'Phttps://script.google.com/u/0/home/projects/1q3mF2Ppf1y_jTqSCMnCRSH1rS0nCJqGlN_u9iZbbVydYFcWatghVm0Xt/edit_URL_DE_APPS_SCRIPT') {
-      document.querySelector('.main').innerHTML = `
-    <div style="text-align:center;padding:60px 20px">
-      <div style="font-size:40px;margin-bottom:16px">⚙️</div>
-      <div style="font-family:var(--font-head);font-size:20px;font-weight:800;margin-bottom:10px">Configura el backend</div>
-      <div style="color:var(--muted);font-size:13px;line-height:1.6">
-        Sigue las instrucciones del archivo<br>
-        <strong style="color:var(--accent)">SETUP_GOOGLE_APPS_SCRIPT.md</strong><br>
-        y pega tu URL de Apps Script en este archivo.
-      </div>
-    </div>`;
+    // ── ARRANQUE ──
+    if (API_URL === 'Phttps://script.google.com/u/0/home/projects/1q3mF2Ppf1y_jTqSCMnCRSH1rS0nCJqGlN_u9iZbbVydYFcWatghVm0Xt/editEGA_AQUÍ_TU_URL_DE_APPS_SCRIPT') {
+      document.querySelector('.nav').style.display = 'none';
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('setup-screen').classList.add('show');
     } else {
       init();
     }
